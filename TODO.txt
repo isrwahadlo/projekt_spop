@@ -1,0 +1,34 @@
+Do zrobienia
+==============
+==============
+
+
+UI
+-wprowadzanie 
+	sal
+	grup
+	zajec
+	przedmiotow
+	
+-usuwanie
+	...
+	
+-modyfikacja - ciekawe czy wogole nam bedzie potrzebna
+
+
+Plan zajec
+
+
+-ukladanie planu zajec manualne
+-generowanie planu zajec
+	tutaj jakis algorytm trzeba wymyslec
+
+Dane
+-sprawdzenie integralnosci wprowadzonych danych
+-brak mozliwosci wprowadzenia zajec bez przedmiotu sal itp...
+
+Przechowywanie danych
+
+-format danych
+-zapis do pliku
+-odczyt z pliku
