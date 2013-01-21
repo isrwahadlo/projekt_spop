@@ -1,6 +1,6 @@
 module Main where
-import IO
-import Char
+import System.IO
+import Data.Char
 import System.Time
 import System.Locale
 import System.Environment
@@ -10,7 +10,7 @@ main = do {
 		putStrLn "------------------------------------------------";
 		putStrLn "----------------------SPOP----------------------";
 		putStrLn "Projekt: Program do ukladania planu zajec";
-		putStrLn "--Autorzy: Piotr Ka³amucki, Filip Nabrdalik --";
+		putStrLn "-- Autorzy: Piotr Kalamucki, Filip Nabrdalik --";
 		putStrLn "------------------------------------------------";
 		menu;
 }
@@ -43,14 +43,14 @@ menu = do {
 									putStrLn "Podaj numer sali: ";
 									nr_sali <- getLine;
 									--
-									dodajSale nr_sali;
+									--dodajSale nr_sali;
 									menu;
 								};
 								"d" -> do {
 									putStrLn "Podaj numer sali: ";
 									nr_sali <- getLine;
 									--
-									usunSale nr_sali;
+									--usunSale nr_sali;
 									menu;
 								};
 								otherwise -> do {
@@ -73,7 +73,7 @@ menu = do {
 									godziny_przedmiotu <- getLine;
 									
 									--
-									dodajPrzedmiot nazwa_przedmiotu dzien_przedmiotu godziny_przedmiotu;
+									--dodajPrzedmiot nazwa_przedmiotu dzien_przedmiotu godziny_przedmiotu;
 									menu;
 								};
 								"m" -> do {
@@ -86,14 +86,14 @@ menu = do {
 									putStrLn "Podaj ilosc godzin: ";
 									nowe_godziny_przedmiotu <- getLine;
 									--
-									modyfikujPrzedmiot nazwa_przedmiotu nowa_nazwa_przedmiotu nowy_dzien_przedmiotu nowe_godziny_przedmiotu;
+									--modyfikujPrzedmiot nazwa_przedmiotu nowa_nazwa_przedmiotu nowy_dzien_przedmiotu nowe_godziny_przedmiotu;
 									menu;
 								};
 								"d" -> do {
 									putStrLn "Podaj nazwe przedmiotu: ";
 									nazwa_przedmiotu <- getLine;
 									--
-									usunPrzedmiot nazwa_przedmiotu;
+									--usunPrzedmiot nazwa_przedmiotu;
 									menu;
 								};
 								otherwise -> do {
@@ -117,7 +117,7 @@ menu = do {
 									putStrLn "Podaj sale: ";
 									sala_zajec <- getLine;
 									--
-									dodajPrzedmiot nazwa_przedmiotu dzien_przedmiotu godziny_przedmiotu;
+									--dodajPrzedmiot nazwa_przedmiotu dzien_przedmiotu godziny_przedmiotu;
 									menu;
 								};
 								"m" -> do {
@@ -130,14 +130,14 @@ menu = do {
 									putStrLn "Podaj ilosc godzin: ";
 									nowe_godziny_przedmiotu <- getLine;
 									--
-									modyfikujPrzedmiot nazwa_przedmiotu nowa_nazwa_przedmiotu nowy_dzien_przedmiotu nowe_godziny_przedmiotu;
+									--modyfikujPrzedmiot nazwa_przedmiotu nowa_nazwa_przedmiotu nowy_dzien_przedmiotu nowe_godziny_przedmiotu;
 									menu;
 								};
 								"d" -> do {
 									putStrLn "Podaj nazwe przedmiotu: ";
 									nazwa_przedmiotu <- getLine;
 									--
-									usunPrzedmiot nazwa_przedmiotu;
+									--usunPrzedmiot nazwa_przedmiotu;
 									menu;
 								};
 								otherwise -> do {
