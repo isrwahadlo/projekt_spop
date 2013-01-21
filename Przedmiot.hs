@@ -1,25 +1,28 @@
-import Przedmiot
-import System.Time
 module Przedmiot where
 
 type ID		=	Int
 type Name	=	String
-type StartTime =  CalendarTime
-type EndTime =  CalendarTime
+type WeeklyLimit =  Int
 
 
-data Przedmiot = Przedmiot ID Name StarTime EndTime 
+-- ID nie wiem czy wogole bedzie potrzebne - byc moze przy zapisach do pliku
+-- Name wiadomo
+-- WeeklyLimit - max. ilosc slotow czasowych dla przedmiotu w tygodniu
+data Przedmiot = Przedmiot ID Name WeeklyLimit 
 
 
 instance Show Przedmiot where
-	show (Przedmiot id nam s_time e_time) = "* Przedmiot \t numer \t\t" ++ show id ++ "\n" ++
+	show (Przedmiot id nam w_limit) = "* Przedmiot \t numer \t\t" ++ show id ++ "\n" ++
 								"\t nazwa \t\t" ++ show nam ++ "\n" ++
-								"\t start \t\t" ++ s_time ++ "\n" ++
-								"\t koniec \t\t" ++ e_time ++ "\n"
+								"\t limit \t\t" ++ show w_limit ++ "\n";
 								
 
-PrzedmiotID :: Przedmiot -> ID
-PrzedmiotID (Przedmiot x _) = x
+przedmiotID :: Przedmiot -> ID
+przedmiotID (Przedmiot x _ _ ) = x
 								
-PrzedmiotName :: Przedmiot -> Name
-PrzedmiotName (Przedmiot _ name ) = name
+przedmiotName :: Przedmiot -> Name
+przedmiotName (Przedmiot _ name _ ) = name
+
+przedmiotWeeklyLimit :: Przedmiot -> WeeklyLimit
+przedmiotWeeklyLimit (Przedmiot _ _ w_limit ) = w_limit
+

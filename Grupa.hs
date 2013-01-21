@@ -1,4 +1,3 @@
-
 module Grupa where
 
 type ID		=	Int
@@ -8,14 +7,14 @@ data Grupa = Grupa ID Name
 
 instance Show Grupa where
 	show (Grupa gid nam) = "* Grupa \t numer \t\t" ++ show gid ++ "\n" ++
-								"\t nazwa \t\t" ++ show nam ++ "\n" ++
+								"\t nazwa \t\t" ++ show nam ++ "\n";
 								
 
-GrupaID :: Grupa -> ID
-GrupaID (Grupa x _) = x
+grupaID :: Grupa -> ID
+grupaID (Grupa x _) = x
 								
-GrupaName :: Grupa -> Name
-GrupaName (Grupa _ name ) = name
+grupaName :: Grupa -> Name
+grupaName (Grupa _ name ) = name
 
 
 

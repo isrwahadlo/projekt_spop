@@ -4,6 +4,10 @@ import Data.Char
 import System.Time
 import System.Locale
 import System.Environment
+import Sala
+import Grupa
+import Przedmiot
+import Zajecia
 
 main = do {
 
