@@ -8,6 +8,7 @@ import Sala
 import Grupa
 import Przedmiot
 import Zajecia
+import Generator
 
 main = do {
 
@@ -155,7 +156,7 @@ menu = do {
 							category <- getLine;
 							putStrLn "Podaj ciag znakow jaki chcesz wyszukac: ";
 							pattern <- getLine;
-							case category of 
+							case category of
 								"1" -> do{ wyszukajInfo "rezerwacje.txt" pattern 1 False; menu;}
 								"2" -> do{ wyszukajInfo "rezerwacje.txt" pattern 2 False; menu;}
 								"3" -> do{ wyszukajInfo "rezerwacje.txt" pattern 3 False; menu;}
@@ -169,11 +170,12 @@ menu = do {
 				"5" -> do {
 							wczytajPlik "stoliki.txt";
 							menu
-						}
-				"6" -> do {
-							wczytajPlik "rezerwacje.txt";
-							menu
 						}-}
+				"6" -> do {
+							--wygenerujPlan;
+							putStrLn "Generuje plan";
+							menu
+						}
 				"7" -> return();
 				otherwise -> do {
 								putStrLn "Podano bledna wartosc";
