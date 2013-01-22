@@ -1,4 +1,4 @@
-module Sala where
+module Sala(salaID, salaName) where
 
 type ID		=	Int
 type Name	=	String

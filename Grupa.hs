@@ -1,4 +1,4 @@
-module Grupa where
+module Grupa(grupaID, grupaName) where
 
 type ID		=	Int
 type Name	=	String

@@ -1,4 +1,4 @@
-module Przedmiot where
+module Przedmiot(przedmiotID, przedmiotName, przedmiotWeeklyLimit) where
 
 type ID		=	Int
 type Name	=	String
