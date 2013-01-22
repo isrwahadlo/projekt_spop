@@ -8,7 +8,7 @@ import Sala
 import Grupa
 import Przedmiot
 import Zajecia
-import Generator
+--import Generator
 
 main = do {
 
