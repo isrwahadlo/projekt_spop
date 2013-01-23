@@ -27,13 +27,13 @@ main = do {
 menu = do {
 			putStrLn "-----------------MENU--------------------"; 
 			putStrLn "(1) Edytuj sale";
-			putStrLn "(2) Edytuj przedmioty";
+			{-putStrLn "(2) Edytuj przedmioty";
 			putStrLn "(3) Edytuj zajecia";
 			putStrLn "(4) Edytuj grupy";
 			putStrLn "(5) Uloz plan zajec";
 			putStrLn "(6) Wygeneruj plan zajec";
 			putStrLn "(7) ??????";
-			putStrLn "(8) Wyjscie";
+			putStrLn "(8) Wyjscie";-}
 			
 			putStrLn "Wybierz polecenie:";
 			cmd <- getLine;
@@ -50,10 +50,7 @@ menu = do {
 									menu;
 								};
 								"d" -> do {
-									putStrLn "Podaj numer sali: ";
-									nr_sali <- getLine;
-									--
-									--usunSale nr_sali;
+									usunSale;
 									menu;
 								};
 								otherwise -> do {
@@ -61,7 +58,7 @@ menu = do {
 									menu;
 								};
 						}
-				"2" -> do {
+				{-"2" -> do {
 							putStrLn "(a) Wprowadzenie informacji o przedmiocie";
 							putStrLn "(m) Modyfikacja informacji o przedmiocie";
 							putStrLn "(d) Usuniecie informacji o przedmiocie";
@@ -148,7 +145,7 @@ menu = do {
 									menu;
 								};
 						}
-				{-"4" -> do {
+				"4" -> do {
 							putStrLn "Podaj kategorie wg ktorej chcesz szukac rezerwacji: ";
 							putStrLn "(1)nr stolika (2)dzien 3)godzina (4)nazwisko (5)informacje dodatkowe: ";
 							category <- getLine;
