@@ -11,7 +11,7 @@ import Zajecia
 --import Generator
 
 main = do {
-
+		sprawdzIUtworzPlikSale;
 		putStrLn "------------------------------------------------";
 		putStrLn "----------------------SPOP----------------------";
 		putStrLn "Projekt: Program do ukladania planu zajec";
@@ -45,10 +45,8 @@ menu = do {
 							opt <- getLine;
 							case opt of
 								"a" -> do {
-									putStrLn "Podaj numer sali: ";
-									nr_sali <- getLine;
-									--
-									--dodajSale nr_sali;
+									
+									dodajSale;
 									menu;
 								};
 								"d" -> do {
