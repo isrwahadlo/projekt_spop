@@ -19,6 +19,7 @@ main = do {
 		putStrLn "------------------------------------------------";
 		sprawdzIUtworzPlikSale;
 		sprawdzIUtworzPlikGrupy;
+		sprawdzIUtworzPlikPrzedmioty;
 		menu;
 }
 
@@ -30,8 +31,8 @@ menu = do {
 			putStrLn "-----------------MENU--------------------"; 
 			putStrLn "(1) Edytuj sale";
 			putStrLn "(2) Edytuj grupy";
-			{-
 			putStrLn "(3) Edytuj przedmioty";
+			{-
 			putStrLn "(4) Edytuj zajecia";
 			putStrLn "(5) Uloz plan zajec";
 			putStrLn "(6) Wygeneruj plan zajec";
@@ -73,6 +74,26 @@ menu = do {
 								};
 								"d" -> do {
 									usunGrupe;
+									menu;
+								};
+								otherwise -> do {
+									putStrLn "Podano bledna wartosc";
+									menu;
+								};
+						}
+				
+				"3" -> do {
+							putStrLn "(a) Wprowadzenie informacji o przedmiocie";
+							putStrLn "(d) Usuniecie informacji o przedmiocie";
+							opt <- getLine;
+							case opt of
+								"a" -> do {
+									
+									dodajPrzedmiot;
+									menu;
+								};
+								"d" -> do {
+									usunPrzedmiot;
 									menu;
 								};
 								otherwise -> do {

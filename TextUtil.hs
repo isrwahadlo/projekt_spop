@@ -1,4 +1,4 @@
-module TextUtil(sprawdzCzyLiczba) where
+module TextUtil(sprawdzCzyLiczba,sprawdzLiczbeDlaOgraniczen) where
 
 import Data.Char
 
@@ -16,3 +16,8 @@ sprawdzCzyLiczba (x:xs) =
         sprawdzCzyLiczba xs
         else
         False
+		
+--	sprawdzenie czy to liczba ... przeniesienie do utils
+sprawdzLiczbeDlaOgraniczen :: Int -> Int -> Int -> Bool
+sprawdzLiczbeDlaOgraniczen x a b = x >= a && x<=b
+
