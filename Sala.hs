@@ -37,12 +37,14 @@ dodajSale = do
         putStrLn "Dodawanie sal"
         putStr "Podaj numer sali: "
         numerSaliStr <- getLine
+        putStr "Podaj nazwe sali: "
+        nazwaSaliStr <- getLine
         stareSale <- wczytajSale
         if sprawdzCzyLiczba numerSaliStr == True then do
                         let
                                 -- stolikId = getNastStolikID stareStoliki 1
                                 numerSali = read numerSaliStr :: Int
-                                sala = Sala numerSali "aa"
+                                sala = Sala numerSali nazwaSaliStr
                         if (sprawdzCzySalaIstnieje stareSale numerSali) then do
                             putStrLn "Podany numer sali juz istnieje."
                             else do

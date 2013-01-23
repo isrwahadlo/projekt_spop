@@ -11,12 +11,14 @@ import Zajecia
 --import Generator
 
 main = do {
-		sprawdzIUtworzPlikSale;
+		
 		putStrLn "------------------------------------------------";
 		putStrLn "----------------------SPOP----------------------";
 		putStrLn "Projekt: Program do ukladania planu zajec";
 		putStrLn "-- Autorzy: Piotr Kalamucki, Filip Nabrdalik --";
 		putStrLn "------------------------------------------------";
+		sprawdzIUtworzPlikSale;
+		sprawdzIUtworzPlikGrupy;
 		menu;
 }
 
@@ -27,9 +29,10 @@ main = do {
 menu = do {
 			putStrLn "-----------------MENU--------------------"; 
 			putStrLn "(1) Edytuj sale";
-			{-putStrLn "(2) Edytuj przedmioty";
-			putStrLn "(3) Edytuj zajecia";
-			putStrLn "(4) Edytuj grupy";
+			putStrLn "(2) Edytuj grupy";
+			{-
+			putStrLn "(3) Edytuj przedmioty";
+			putStrLn "(4) Edytuj zajecia";
 			putStrLn "(5) Uloz plan zajec";
 			putStrLn "(6) Wygeneruj plan zajec";
 			putStrLn "(7) ??????";
@@ -58,6 +61,26 @@ menu = do {
 									menu;
 								};
 						}
+				"2" -> do {
+							putStrLn "(a) Wprowadzenie informacji o grupie";
+							putStrLn "(d) Usuniecie informacji o grupie";
+							opt <- getLine;
+							case opt of
+								"a" -> do {
+									
+									dodajGrupe;
+									menu;
+								};
+								"d" -> do {
+									usunGrupe;
+									menu;
+								};
+								otherwise -> do {
+									putStrLn "Podano bledna wartosc";
+									menu;
+								};
+						}
+						
 				{-"2" -> do {
 							putStrLn "(a) Wprowadzenie informacji o przedmiocie";
 							putStrLn "(m) Modyfikacja informacji o przedmiocie";
