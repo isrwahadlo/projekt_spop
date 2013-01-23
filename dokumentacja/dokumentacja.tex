@@ -1,0 +1,39 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{ucs}
+\usepackage[nohead,left=1.5cm,right=1.5cm,top=1.5cm,bottom=1.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{polski}
+\usepackage[polish]{babel}
+\usepackage{color,graphicx}
+\usepackage{subfigure}
+\usepackage{hyperref}
+\usepackage{indentfirst}
+\bibliographystyle{plain}
+
+\author{Mateusz Boryń, Mateusz Pruchniak}
+\title{SPOP Projekt - Restauracja}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+Aplikacja ma za zadanie wspomaganie obslugi rezerwacji miejsc w restauracji. Udostępnia podstawowe operacje jakimi są: dodawanie, usuwanie, modyfikacja oraz wyświetlanie rezerwacji i stolików. Istnieje również możliwość wyszukiwania rezerwacji po wisanym nazwisku lub wyszukiwania wolnych stolików w okreslonym przedziale czasu. Podczs działania programu wykorzystywane są dwie struktury \textit{Rezerwacja} i \textit{Stolik} oraz dwa pliki \textit{rezerwacje.txt}  i \textit{stoliki.txt}. \textit{Rezerwacja} - struktura opisująca pojedyńczą rezerwację oraz plik \textit{rezerwacje.txt} zawierają wszystkie utworzone rezerwacje. \textit{Stolik} - struktura opisująca każdy stolik w restauracji oraz powiązany jest z nią plik \textit{stoliki.txt} który zawiera wszystkie dodane stoliki. W połączeniu te struktury tworzą relacyjną bazę danych. Poszczególne pola struktur zostały opisane w kodzie programu. Program posiada zabezpieczenia przed wpisaniem błędnych danych na przykład takich jak id stolików, które nie istnieją, ale również posiada sprawdzanie poprawności wpisywanych dat oraz numerów telefonów do klientów. 
+\\\\
+{\bf Opis interfejsu:} \\
+Program uruchamiamy poleceniem \textit{main}. Dostępne są następujące opcje:
+
+\begin{enumerate}
+\item Zarządzaie stolikami: dodawanie (akcja \texttt{dodajStolik}), wyświetlanie (\texttt{wyswietlStoliki}), edycja (\texttt{edytujStolik}), usuwanie stolików (\texttt{usunStolik})
+\item Zarządzaie rezerwacjami: dodawanie (\texttt{dodajRezerwacje}), wyświetlanie (\texttt{wszystkieRezerwacje}), edycja (\texttt{modyfikujRezerwacje}), usuwanie rezerwacji (\texttt{usuwanieRezerwacji})
+\item Wyszukiwanie: wyszukiwanie rezerwacji wg nazwiska (\texttt{wyszukajPoNazwisku}), wyszukiwanie wolnych stolików (\texttt{wyszukajPoDacie})
+\end{enumerate} 
+
+
+W każdym podmenu można wcisnąć \textit{0} aby powrócić do głownego menu, natomiast wciśniecie \textit{0} w głównym menu spowoduje wyjście z programu.
+\\
+\end{document}
