@@ -20,6 +20,7 @@ main = do {
 		sprawdzIUtworzPlikSale;
 		sprawdzIUtworzPlikGrupy;
 		sprawdzIUtworzPlikPrzedmioty;
+		sprawdzIUtworzPlikZajec;
 		menu;
 }
 

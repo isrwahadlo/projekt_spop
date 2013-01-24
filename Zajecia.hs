@@ -1,4 +1,4 @@
-module Zajecia(menuZajecia,wczytajZajecia,dodajZajecia) where
+module Zajecia(menuZajecia,wczytajZajecia,dodajZajecia,sprawdzIUtworzPlikZajec) where
 
 
 import System.IO
@@ -57,6 +57,7 @@ wczytajZajecia = do
 dodajZajecia returnF=  do 
     putStrLn "Wybierz przedmiot dla zajecia:"
     przedmiotNum <- listaWyboru listPrzedmioty iloscPrzedmioty
+    stareZajecia <- wczytajZajecia
     if przedmiotNum == 0 then menuZajecia returnF
         else 
             do
@@ -76,8 +77,9 @@ dodajZajecia returnF=  do
                                 saleLista <- wczytajSale
                                 snazwa <- pobierzSalaNazwa saleLista salaNum
                                 grupyLista <- wczytajGrupy
-                                snazwa <- pobierzGrupaNazwa grupyLista grupaNum
+                                gnazwa <- pobierzGrupaNazwa grupyLista grupaNum
                                 putStrLn "blabla:"
+                                zapiszZajecia (stareZajecia++ [(Zajecia (pnazwa) (gnazwa) (snazwa) 2 4 5) ])
                                 {-(gdo, god, dzien) <- wczytajTermin pnum gnum snum
                                 if (gdo == 0 && god == 0 && dzien == 0) then
                                    do
@@ -119,6 +121,19 @@ menuZajecia returnF= do {
 
 zapiszZajecia zajeciaLista = do
         writeFile zajeciaPlik (show zajeciaLista)
+
+sprawdzIUtworzPlikZajec = do
+        catch   (do
+                putStrLn ("Sprawdzanie " ++ zajeciaPlik)
+                plik <- readFile zajeciaPlik
+                return ()
+                ) errorHandler
+        where errorHandler e =
+                if isDoesNotExistError e then do
+                        putStrLn ("Tworzenie pliku: " ++ zajeciaPlik)
+                        writeFile zajeciaPlik (show ([] :: [Zajecia]))
+                        else
+                        putStrLn ("Blad przy otwieraniu pliku: " ++ zajeciaPlik)
 {-
 sprawdzPlan _ _ _ [] = True
 sprawdzPlan zajecia przedmioty grupy (s:sale) = if sprawdzPlan1 zajecia grupy przedmioty s
