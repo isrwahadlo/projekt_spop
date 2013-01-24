@@ -32,6 +32,7 @@ menu = do {
 			putStrLn "(1) Edytuj sale";
 			putStrLn "(2) Edytuj grupy";
 			putStrLn "(3) Edytuj przedmioty";
+			putStrLn "(4) Edytuj zajecia";
 			{-
 			putStrLn "(4) Edytuj zajecia";
 			putStrLn "(5) Uloz plan zajec";
@@ -94,6 +95,26 @@ menu = do {
 								};
 								"d" -> do {
 									usunPrzedmiot;
+									menu;
+								};
+								otherwise -> do {
+									putStrLn "Podano bledna wartosc";
+									menu;
+								};
+						}
+						
+				"4" -> do {
+							putStrLn "(a) Wprowadzenie informacji o zajeciach";
+							putStrLn "(d) Usuniecie informacji o zajeciu";
+							opt <- getLine;
+							case opt of
+								"a" -> do {
+									
+									dodajZajecia;
+									menu;
+								};
+								"d" -> do {
+									--usunPrzedmiot;
 									menu;
 								};
 								otherwise -> do {

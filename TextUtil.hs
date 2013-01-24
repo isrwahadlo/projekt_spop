@@ -1,7 +1,7 @@
-module TextUtil(sprawdzCzyLiczba,sprawdzLiczbeDlaOgraniczen) where
+module TextUtil(sprawdzCzyLiczba,sprawdzLiczbeDlaOgraniczen,listaWyboru) where
 
 import Data.Char
-
+import Data.Maybe
 
 --	sprawdzenie czy to liczba ... przeniesienie do utils
 sprawdzCzyLiczba :: String -> Bool
@@ -21,3 +21,24 @@ sprawdzCzyLiczba (x:xs) =
 sprawdzLiczbeDlaOgraniczen :: Int -> Int -> Int -> Bool
 sprawdzLiczbeDlaOgraniczen x a b = x >= a && x<=b
 
+listaWyboru listF lenF =
+  do
+    putStrLn "0. Powrot"
+    listF
+    wybor <- getLine
+    let pnum = rUnsigned (mReadInt wybor)
+    liczba <- lenF
+    if pnum == -1 || pnum > liczba then
+      do
+        putStrLn "Niepoprawna wartosc."
+        listaWyboru listF lenF
+    else 
+      return pnum
+	  
+
+mReadInt :: String -> Maybe Int
+mReadInt = fmap fst.listToMaybe.reads
+
+rUnsigned :: Maybe Int -> Int
+rUnsigned Nothing = -1
+rUnsigned (Just a)= a

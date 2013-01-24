@@ -1,4 +1,4 @@
-module Grupa(grupaID, grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy) where
+module Grupa(grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy) where
 import System.IO
 import System.IO.Error
 import Data.Char
@@ -6,18 +6,17 @@ import TextUtil
 
 grupyPlik = "sale.dat"
 
-type ID		=	Int
+
 type Name	=	String
 
-data Grupa = Grupa ID Name deriving (Show,Read,Eq)
+data Grupa = Grupa Name deriving (Show,Read,Eq)
 
 								
 
-grupaID :: Grupa -> ID
-grupaID (Grupa x _) = x
+
 								
 grupaName :: Grupa -> Name
-grupaName (Grupa _ name ) = name
+grupaName (Grupa name) = name
 
 
 -- wczytaj grupy z pliku i zwroc liste grup
@@ -34,25 +33,22 @@ wczytajGrupy = do
 dodajGrupe = do
         putStrLn "====================================="
         putStrLn "Dodawanie grupy"
-        putStr "Podaj ID grupy: "
-        numerGrupyStr <- getLine
         putStr "Podaj nazwe grupy: "
         nazwaGrupyStr <- getLine
         stareGrupy <- wczytajGrupy
-        if sprawdzCzyLiczba numerGrupyStr == True then do
+        do
                         let
                                 
-                                numerGrupy = read numerGrupyStr :: Int
-                                grupa = Grupa numerGrupy nazwaGrupyStr
-                        if (sprawdzCzyGrupaIstnieje stareGrupy numerGrupy) then do
+                                --numerGrupy = read numerGrupyStr :: Int
+                                grupa = Grupa nazwaGrupyStr
+                        if (sprawdzCzyGrupaIstnieje stareGrupy nazwaGrupyStr) then do
                             putStrLn "Podany numer grupy juz istnieje."
                             else do
                             zapiszGrupy (stareGrupy ++ [grupa])
-                            putStrLn "Zapisano sale."
+                            putStrLn "Zapisano grupy."
                         
                         
-                else
-                        putStrLn "Podano zla liczbe."
+
 						
 -- usuniecie grupy
 usunGrupe = do
@@ -61,17 +57,17 @@ usunGrupe = do
         stareGrupy <- wczytajGrupy
         putStrLn "Grupy:"
         putStrLn (grupy2String stareGrupy)
-        putStr "Podaj numer grupy: "
-        grupaNumerStr <- getLine
-        if sprawdzCzyLiczba grupaNumerStr then do
-                let grupaNr = (read grupaNumerStr) :: Int
-                let grupa = znajdzGrupe stareGrupy grupaNr
+        putStr "Podaj nazwe grupy: "
+        grupaNazwaStr <- getLine
+        do
+                --let grupaNr = (read grupaNazwaStr) :: Int
+                let grupa = znajdzGrupe stareGrupy grupaNazwaStr
                 if grupa /= [] then do
                         --let sale = sale !! 0
                         putStrLn "Znaleziono grupe:"
                         putStrLn (grupy2String grupa)
                         --putStrLn "Czy na pewno chcesz usunac ten stolik? [T/N]"
-                        zapiszGrupy (usunGrupyZListy stareGrupy grupaNr)
+                        zapiszGrupy (usunGrupyZListy stareGrupy grupaNazwaStr)
                         putStrLn "Grupe usunieto."
                         {-potwierdzenie <- getLine
                         case (map toLower potwierdzenie) of
@@ -82,32 +78,30 @@ usunGrupe = do
                                         putStrLn "Anulowano"-}
                         else do
                         putStrLn "Nie znaleziono grupy o podanym ID."
-                else do
-                putStrLn "To nie jest liczba"
-				
+                
 -- pobierz grupe na podstawie podanego nr
-znajdzGrupe :: [Grupa] -> Int -> [Grupa]
+znajdzGrupe :: [Grupa] -> String -> [Grupa]
 znajdzGrupe [] _ = []
 znajdzGrupe (x:xs) id =
-        if grupaID x == id then
+        if grupaName x == id then
         [x]
         else
         znajdzGrupe xs id
 
 -- usun grupe o podanym ID z listy
-usunGrupyZListy :: [Grupa] -> Int -> [Grupa]
+usunGrupyZListy :: [Grupa] -> String -> [Grupa]
 usunGrupyZListy [] id = []
 usunGrupyZListy [grupa] id =
-        if (grupaID grupa) == id then
+        if (grupaName grupa) == id then
                 []
         else
                 [grupa]
 usunGrupyZListy (s:reszta) id = (usunGrupyZListy [s] id) ++ (usunGrupyZListy reszta id)
 
 --sprawdz czy numer grupy juz istnieje
-sprawdzCzyGrupaIstnieje :: [Grupa] -> Int -> Bool
+sprawdzCzyGrupaIstnieje :: [Grupa] -> String -> Bool
 sprawdzCzyGrupaIstnieje [] _ = False
-sprawdzCzyGrupaIstnieje (x:xs) nrGrupy =  grupaID (x) == nrGrupy || sprawdzCzyGrupaIstnieje xs nrGrupy
+sprawdzCzyGrupaIstnieje (x:xs) nazwaGrupy =  grupaName (x) == nazwaGrupy || sprawdzCzyGrupaIstnieje xs nazwaGrupy
 
 -- zapisz sale do pliku
 zapiszGrupy grupyLista = do
@@ -120,8 +114,8 @@ grupy2String (x:xs) = (grupa2String x) ++ grupy2String xs
 
 -- zamien grupe na napis, ktory mozna wyisac na ekranie
 grupa2String  :: Grupa -> String
-grupa2String (Grupa nr nazwa) =
-                "Grupa nr. " ++ show nr++ "; nazwa: " ++ show nazwa ++ "\n"
+grupa2String (Grupa nazwa) =
+                "Grupa nr. " ++ show nazwa++ "\n"
 	
 
 -- sprawdza i tworzy nowe pliki jesli nie istnieja
