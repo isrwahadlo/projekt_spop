@@ -1,4 +1,4 @@
-module Przedmiot(przedmiotName, przedmiotWeeklyLimit,wczytajPrzedmioty,dodajPrzedmiot,sprawdzIUtworzPlikPrzedmioty,usunPrzedmiot,iloscPrzedmioty,listPrzedmioty) where
+module Przedmiot(przedmiotName, przedmiotWeeklyLimit,wczytajPrzedmioty,dodajPrzedmiot,sprawdzIUtworzPlikPrzedmioty,usunPrzedmiot,iloscPrzedmioty,listPrzedmioty,pobierzPrzedmiotNazwa) where
 import System.IO
 import System.IO.Error
 import Data.Char
@@ -62,7 +62,7 @@ dodajPrzedmiot = do
                                         zapiszPrzedmioty (starePrzedmioty ++ [przedmiot])
                                         putStrLn "Zapisano przedmioty."
                 else
-                        putStrLn "Podano zla liczbe." 
+                        putStrLn "Podano zla warosc." 
 
 usunPrzedmiot = do
         putStrLn "====================================="

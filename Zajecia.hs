@@ -15,7 +15,7 @@ type SalaNazwa = String
 type Dzien = Int
 type StartSlot = Int
 type EndSlot = Int
---- data TypZajec = Wyklad | Laboratorium | Projekt deriving (Enum)
+
 
 zajeciaPlik="zajecia.dat"
 
@@ -73,8 +73,23 @@ dodajZajecia returnF=  do
                              do
                                 przedmiotyLista <- wczytajPrzedmioty
                                 pnazwa <- pobierzPrzedmiotNazwa przedmiotyLista przedmiotNum
-                                putStrLn "dupa:"
-
+                                saleLista <- wczytajSale
+                                snazwa <- pobierzSalaNazwa saleLista salaNum
+                                grupyLista <- wczytajGrupy
+                                snazwa <- pobierzGrupaNazwa grupyLista grupaNum
+                                putStrLn "blabla:"
+                                {-(gdo, god, dzien) <- wczytajTermin pnum gnum snum
+                                if (gdo == 0 && god == 0 && dzien == 0) then
+                                   do
+                                   putStrLn "Podany termin nie spelnia wymagan. Prosze sprobowac ponownie."
+                                   operacjeZajecia
+                                     else
+                                     do
+                                   lista <- czytajZajecia
+                                    objectToFile (lista ++ [(Zajecie (pnazwa) (gnazwa) (snazwa) gdo god dzien)]) "baza_zajecia"
+                                    putStrLn "Pomyslnie dodano zajecie."
+                                     operacjeZajecia
+                                -}
 
 
 
@@ -100,6 +115,10 @@ menuZajecia returnF= do {
 								};
 					}
 ---
+
+
+zapiszZajecia zajeciaLista = do
+        writeFile zajeciaPlik (show zajeciaLista)
 {-
 sprawdzPlan _ _ _ [] = True
 sprawdzPlan zajecia przedmioty grupy (s:sale) = if sprawdzPlan1 zajecia grupy przedmioty s

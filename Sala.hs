@@ -1,4 +1,4 @@
-module Sala(salaName,dodajSale,zapiszSale,sprawdzIUtworzPlikSale,usunSale,listSale,iloscSale) where
+module Sala(salaName,dodajSale,zapiszSale,sprawdzIUtworzPlikSale,usunSale,listSale,iloscSale,pobierzSalaNazwa,wczytajSale) where
 import System.IO
 import System.IO.Error
 import Data.Char
@@ -92,6 +92,13 @@ iloscSale =
     listaS <- wczytajSale
     return (length listaS)
 
+pobierzSalaNazwa :: [Sala] -> Int -> IO String
+pobierzSalaNazwa (x:xs) num =
+  do
+    if num == 1 then return (salaName x)
+    else pobierzSalaNazwa xs (num - 1)
+
+	
 -- zamien liste stolikow na napis, ktory mozna wypisac na ekranie
 sale2String :: [Sala] -> String
 sale2String [] = ""

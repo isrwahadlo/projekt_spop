@@ -1,4 +1,4 @@
-module Grupa(grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy,iloscGrupy,listGrupy) where
+module Grupa(grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy,iloscGrupy,listGrupy,pobierzGrupaNazwa,wczytajGrupy) where
 import System.IO
 import System.IO.Error
 import Data.Char
@@ -100,6 +100,13 @@ iloscGrupy =
     listaP <- wczytajGrupy
     return (length listaP)
 						
+
+pobierzGrupaNazwa :: [Grupa] -> Int -> IO String
+pobierzGrupaNazwa (x:xs) num =
+  do
+    if num == 1 then return (grupaName x)
+    else pobierzGrupaNazwa xs (num - 1)
+
 -- pobierz grupe na podstawie podanego nr
 znajdzGrupe :: [Grupa] -> String -> [Grupa]
 znajdzGrupe [] _ = []
