@@ -22,7 +22,7 @@ wczytajSale = do
         hFile <- openFile salePlik ReadMode
         fileStr <- hGetContents hFile
         let sale = (read fileStr) :: [Sala]
-        putStrLn ("Wczytano sal: " ++ (show (length sale)))
+        --putStrLn ("Wczytano sal: " ++ (show (length sale)))
         hClose hFile
         return sale
 		

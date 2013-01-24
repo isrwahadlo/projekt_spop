@@ -24,7 +24,7 @@ wczytajGrupy = do
         hFile <- openFile grupyPlik ReadMode
         fileStr <- hGetContents hFile
         let grupy = (read fileStr) :: [Grupa]
-        putStrLn ("Wczytano grup: " ++ (show (length grupy)))
+        --putStrLn ("Wczytano grup: " ++ (show (length grupy)))
         hClose hFile
         return grupy
 		

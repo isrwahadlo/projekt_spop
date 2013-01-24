@@ -120,7 +120,14 @@ iloscPrzedmioty =
   do
     listaP <- wczytajPrzedmioty
     return (length listaP)
-	
+
+--funkcja pobierajaca przedmiot na podstawie indeksu i zwracajaca fun przedmiot
+pobierzPrzedmiotNazwa :: [Przedmiot] -> Int -> IO String
+pobierzPrzedmiotNazwa (x:xs) num =
+  do
+    if num == 1 then return (przedmiotName x)
+    else pobierzPrzedmiotNazwa xs (num - 1)
+
 --sprawdz czy przedmiot juz istnieje
 sprawdzCzyPrzedmiotIstnieje :: [Przedmiot] -> String -> Bool
 sprawdzCzyPrzedmiotIstnieje [] _ = False

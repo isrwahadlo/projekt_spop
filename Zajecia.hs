@@ -49,7 +49,7 @@ wczytajZajecia = do
         hFile <- openFile zajeciaPlik ReadMode
         fileStr <- hGetContents hFile
         let zaj = (read fileStr) :: [Zajecia]
-        putStrLn ("Wczytano zajec: " ++ (show (length zaj)))
+        --putStrLn ("Wczytano zajec: " ++ (show (length zaj)))
         hClose hFile
         return zaj
 
@@ -71,13 +71,9 @@ dodajZajecia returnF=  do
                       if salaNum == 0 then menuZajecia returnF
                          else 
                              do
-                              putStrLn "dupa:"
-
-
-
-
-
-
+                                przedmiotyLista <- wczytajPrzedmioty
+                                pnazwa <- pobierzPrzedmiotNazwa przedmiotyLista przedmiotNum
+                                putStrLn "dupa:"
 
 
 
