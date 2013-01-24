@@ -1,4 +1,4 @@
-module Przedmiot(przedmiotName, przedmiotWeeklyLimit,wczytajPrzedmioty,dodajPrzedmiot,sprawdzIUtworzPlikPrzedmioty,usunPrzedmiot) where
+module Przedmiot(przedmiotName, przedmiotWeeklyLimit,wczytajPrzedmioty,dodajPrzedmiot,sprawdzIUtworzPlikPrzedmioty,usunPrzedmiot,iloscPrzedmioty,listPrzedmioty) where
 import System.IO
 import System.IO.Error
 import Data.Char
@@ -102,6 +102,25 @@ przedmiot2String  :: Przedmiot -> String
 przedmiot2String (Przedmiot nazwa limit) =
                 "Przedmiot " ++ show nazwa ++ "; tygodniowy limit godzin: " ++ show limit ++ "\n"				
 
+--funkcje odpowiedzialne za wyswietlenie listy przedmiotow podczas dodawania zajec				
+pokazPrzedmiot :: [Przedmiot] -> Int -> IO ()
+pokazPrzedmiot [] _ = return ()
+pokazPrzedmiot (x:xs) num =
+  do
+    putStrLn ((show num) ++ "Przedmiot \"" ++ (show (przedmiotName x)) ++ "\", limit godzin " ++ (show (przedmiotWeeklyLimit x)))
+    pokazPrzedmiot xs (num + 1)
+    return ()
+
+listPrzedmioty =
+  do
+    lista <- wczytajPrzedmioty
+    pokazPrzedmiot lista 1
+	
+iloscPrzedmioty =
+  do
+    listaP <- wczytajPrzedmioty
+    return (length listaP)
+	
 --sprawdz czy przedmiot juz istnieje
 sprawdzCzyPrzedmiotIstnieje :: [Przedmiot] -> String -> Bool
 sprawdzCzyPrzedmiotIstnieje [] _ = False
