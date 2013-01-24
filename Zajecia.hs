@@ -7,6 +7,7 @@ import Data.Char
 import TextUtil
 import Przedmiot
 import Grupa
+import Sala
 
 type PrzedmiotNazwa = String
 type GrupaNazwa = String
@@ -66,8 +67,11 @@ dodajZajecia returnF=  do
                else
                    do
                       putStrLn "Wybierz sale dla zajecia:"
-    --else
-
+                      salaNum <- listaWyboru listSale iloscSale
+                      if salaNum == 0 then menuZajecia returnF
+                         else 
+                             do
+                              putStrLn "dupa:"
 
 
 

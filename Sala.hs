@@ -1,4 +1,4 @@
-module Sala(salaName,dodajSale,zapiszSale,sprawdzIUtworzPlikSale,usunSale) where
+module Sala(salaName,dodajSale,zapiszSale,sprawdzIUtworzPlikSale,usunSale,listSale,iloscSale) where
 import System.IO
 import System.IO.Error
 import Data.Char
@@ -71,6 +71,26 @@ usunSale = do
                         else do
                         putStrLn "Nie znaleziono sali o podanym ID."
 
+						
+						
+--funkcje odpowiedzialne za wyswietlenie listy przedmiotow podczas dodawania zajec				
+pokazSale :: [Sala] -> Int -> IO ()
+pokazSale [] _ = return ()
+pokazSale (x:xs) num =
+  do
+    putStrLn ( (show num) ++ " Sala " ++ (show (salaName x))  )
+    pokazSale xs (num + 1)
+    return ()
+
+listSale =
+  do
+    lista <- wczytajSale
+    pokazSale lista 1
+	
+iloscSale =
+  do
+    listaS <- wczytajSale
+    return (length listaS)
 
 -- zamien liste stolikow na napis, ktory mozna wypisac na ekranie
 sale2String :: [Sala] -> String
