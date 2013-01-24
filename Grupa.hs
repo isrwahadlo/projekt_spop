@@ -1,10 +1,10 @@
-module Grupa(grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy) where
+module Grupa(grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy,iloscGrupy,listGrupy) where
 import System.IO
 import System.IO.Error
 import Data.Char
 import TextUtil
 
-grupyPlik = "sale.dat"
+grupyPlik = "grupy.dat"
 
 
 type Name	=	String
@@ -78,7 +78,28 @@ usunGrupe = do
                                         putStrLn "Anulowano"-}
                         else do
                         putStrLn "Nie znaleziono grupy o podanym ID."
-                
+
+---
+
+--funkcje odpowiedzialne za wyswietlenie listy przedmiotow podczas dodawania zajec				
+pokazGrupe :: [Grupa] -> Int -> IO ()
+pokazGrupe [] _ = return ()
+pokazGrupe (x:xs) num =
+  do
+    putStrLn ( (show num) ++ " Grupa \"" ++ (show (grupaName x))  )
+    pokazGrupe xs (num + 1)
+    return ()
+
+listGrupy =
+  do
+    lista <- wczytajGrupy
+    pokazGrupe lista 1
+	
+iloscGrupy =
+  do
+    listaP <- wczytajGrupy
+    return (length listaP)
+						
 -- pobierz grupe na podstawie podanego nr
 znajdzGrupe :: [Grupa] -> String -> [Grupa]
 znajdzGrupe [] _ = []

@@ -1,4 +1,4 @@
-module Zajecia(wczytajZajecia,dodajZajecia) where
+module Zajecia(menuZajecia,wczytajZajecia,dodajZajecia) where
 
 
 import System.IO
@@ -6,6 +6,7 @@ import System.IO.Error
 import Data.Char
 import TextUtil
 import Przedmiot
+import Grupa
 
 type PrzedmiotNazwa = String
 type GrupaNazwa = String
@@ -52,13 +53,52 @@ wczytajZajecia = do
         return zaj
 
 -- akcja do dodawania zajec
-dodajZajecia =  do 
+dodajZajecia returnF=  do 
     putStrLn "Wybierz przedmiot dla zajecia:"
-    --przedmiotNum <- listaWyboru listPrzedmioty iloscPrzedmioty
-    --if pnum == 0 then 
+    przedmiotNum <- listaWyboru listPrzedmioty iloscPrzedmioty
+    if przedmiotNum == 0 then menuZajecia returnF
+        else 
+            do
+            putStrLn "Wybierz grupe dla zajecia:"
+            --gnum <- helperWybor listujGrupy liczGrupy
+            grupaNum <- listaWyboru listGrupy iloscGrupy
+            if grupaNum == 0 then menuZajecia returnF
+               else
+                   do
+                      putStrLn "Wybierz sale dla zajecia:"
     --else
 
+
+
+
+
+
+
+
+
+
+
 	
+--menu zajecia przeniesione z UI
+menuZajecia returnF= do {
+			putStrLn "(a) Wprowadzenie informacji o zajeciach";
+			putStrLn "(d) Usuniecie informacji o zajeciu";
+							opt <- getLine;
+							case opt of
+								"a" -> do {
+									
+									dodajZajecia returnF;
+									returnF;
+								};
+								"d" -> do {
+									--usunPrzedmiot;
+									returnF;
+								};
+								otherwise -> do {
+									putStrLn "Podano bledna wartosc";
+									returnF;
+								};
+					}
 ---
 {-
 sprawdzPlan _ _ _ [] = True

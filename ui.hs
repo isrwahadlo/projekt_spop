@@ -104,23 +104,7 @@ menu = do {
 						}
 						
 				"4" -> do {
-							putStrLn "(a) Wprowadzenie informacji o zajeciach";
-							putStrLn "(d) Usuniecie informacji o zajeciu";
-							opt <- getLine;
-							case opt of
-								"a" -> do {
-									
-									dodajZajecia;
-									menu;
-								};
-								"d" -> do {
-									--usunPrzedmiot;
-									menu;
-								};
-								otherwise -> do {
-									putStrLn "Podano bledna wartosc";
-									menu;
-								};
+							menuZajecia menu;
 						}
 						
 				{-"2" -> do {
