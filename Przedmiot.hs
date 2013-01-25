@@ -1,4 +1,4 @@
-module Przedmiot(przedmiotName, przedmiotWeeklyLimit,wczytajPrzedmioty,dodajPrzedmiot,sprawdzIUtworzPlikPrzedmioty,usunPrzedmiot,iloscPrzedmioty,listPrzedmioty,pobierzPrzedmiotNazwa,wyswietlPrzedmioty) where
+module Przedmiot(przedmiotName, przedmiotWeeklyLimit,wczytajPrzedmioty,dodajPrzedmiot,sprawdzIUtworzPlikPrzedmioty,usunPrzedmiot,iloscPrzedmioty,listPrzedmioty,pobierzPrzedmiotNazwa,wyswietlPrzedmioty,modyfikujPrzedmiot) where
 import IO
 --import System.IO.Error
 import Char
@@ -60,7 +60,37 @@ dodajPrzedmiot = do
                                         putStrLn "Zapisano przedmioty."
                 else
                         putStrLn "Podano zla warosc." 
-
+modyfikujPrzedmiot = do
+        putStrLn "====================================="
+        putStrLn "Modyfikowanie przedmiotu"
+        putStrLn "Podaj nazwe przedmiotu do modyfikacji: "
+        nazwaPrzedmiotyStr <- getLine
+        starePrzedmioty <- wczytajPrzedmioty
+        do
+                
+                let przedmioty = znajdzPrzedmiot starePrzedmioty nazwaPrzedmiotyStr
+                if przedmioty /= [] then do
+                        --let przedmioty = przedmioty !! 0
+                        --putStrLn "Znaleziono przedmioty:"
+                        putStrLn (przedmioty2String przedmioty)
+                        
+                        zapiszPrzedmioty (usunPrzedmiotZListy starePrzedmioty nazwaPrzedmiotyStr)
+                        stareModprzedmioty <- wczytajPrzedmioty
+                        putStrLn "Podaj nowa nazwe przedmiotu: "
+                        nowanazwaPrzedmiotyStr <- getLine
+                        putStrLn "Podaj nowy limit czasu dla przedmiotu: "
+                        limitPrzedmiotyStr <- getLine
+                        if sprawdzCzyLiczba limitPrzedmiotyStr == True then do
+                            let
+                                weeklyLimit = read limitPrzedmiotyStr :: Int
+                                przedmiot = Przedmiot nowanazwaPrzedmiotyStr weeklyLimit
+                            zapiszPrzedmioty (stareModprzedmioty ++ [przedmiot])
+                            putStrLn "Przedmiot zmodyfikowano."
+                                    else do
+                                           putStrLn "Niepoprawna wartosc."
+                    else
+                        putStrLn "Nie znaleziono przedmiotu."
+						
 usunPrzedmiot = do
         putStrLn "====================================="
         putStrLn "Usuwanie przedmiotu"

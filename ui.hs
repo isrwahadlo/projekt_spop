@@ -109,6 +109,7 @@ menu = do {
 				"3" -> do {
 							putStrLn "(a) Wprowadzenie informacji o przedmiocie";
 							putStrLn "(d) Usuniecie informacji o przedmiocie";
+							putStrLn "(m) Modyfikacja informacji o przedmiocie";
 							putStrLn "(v) Wyswietlenie informacji o przedmiotach";
 							opt <- getLine;
 							case opt of
@@ -119,6 +120,10 @@ menu = do {
 								};
 								"d" -> do {
 									usunPrzedmiot;
+									menu;
+								};
+								"m" -> do {
+									modyfikujPrzedmiot;
 									menu;
 								};
 								"v" -> do {
