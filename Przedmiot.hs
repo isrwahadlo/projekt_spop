@@ -1,4 +1,4 @@
-module Przedmiot(przedmiotName, przedmiotWeeklyLimit,wczytajPrzedmioty,dodajPrzedmiot,sprawdzIUtworzPlikPrzedmioty,usunPrzedmiot,iloscPrzedmioty,listPrzedmioty,pobierzPrzedmiotNazwa) where
+module Przedmiot(przedmiotName, przedmiotWeeklyLimit,wczytajPrzedmioty,dodajPrzedmiot,sprawdzIUtworzPlikPrzedmioty,usunPrzedmiot,iloscPrzedmioty,listPrzedmioty,pobierzPrzedmiotNazwa,wyswietlPrzedmioty) where
 import IO
 --import System.IO.Error
 import Char
@@ -12,9 +12,7 @@ przedmiotyPlik="przedmioty.dat"
 minWeeklyLimit=0
 maxWeeklyLimit=60
 
--- ID nie wiem czy wogole bedzie potrzebne - byc moze przy zapisach do pliku
--- Name wiadomo
--- WeeklyLimit - max. ilosc slotow czasowych dla przedmiotu w tygodniu
+
 data Przedmiot = Przedmiot Name WeeklyLimit deriving (Show,Read,Eq)
 
 
@@ -90,7 +88,9 @@ usunPrzedmiot = do
                         else do
                         putStrLn "Nie znaleziono przedmiotu o podanej nazwie."
                
-
+wyswietlPrzedmioty = do
+                listaPrzed <- wczytajPrzedmioty
+                putStrLn(przedmioty2String listaPrzed)	
 -- zamien liste grup na napis, ktory mozna wypisac na ekranie
 przedmioty2String :: [Przedmiot] -> String
 przedmioty2String [] = ""

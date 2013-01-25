@@ -50,6 +50,7 @@ menu = do {
 							putStrLn "(a) Wprowadzenie informacji o sali";
 							putStrLn "(d) Usuniecie informacji o sali";
 							putStrLn "(m) Modyfikacja informacji o sali";
+                            putStrLn "(v) Wyswietlenie informacji o salach";
 							opt <- getLine;
 							case opt of
 								"a" -> do {
@@ -65,6 +66,11 @@ menu = do {
 									modyfikujSale;
 									menu;
 								};
+								"v" -> do {
+									wyswietlSale;
+									menu;
+								};
+								
 								otherwise -> do {
 									putStrLn "Podano bledna wartosc";
 									menu;
@@ -73,6 +79,7 @@ menu = do {
 				"2" -> do {
 							putStrLn "(a) Wprowadzenie informacji o grupie";
 							putStrLn "(d) Usuniecie informacji o grupie";
+							putStrLn "(v) Wyswietlenie informacji o grupach";
 							opt <- getLine;
 							case opt of
 								"a" -> do {
@@ -84,6 +91,10 @@ menu = do {
 									usunGrupe;
 									menu;
 								};
+								"v" -> do {
+									wyswietlGrupy;
+									menu;
+								};
 								otherwise -> do {
 									putStrLn "Podano bledna wartosc";
 									menu;
@@ -93,6 +104,7 @@ menu = do {
 				"3" -> do {
 							putStrLn "(a) Wprowadzenie informacji o przedmiocie";
 							putStrLn "(d) Usuniecie informacji o przedmiocie";
+							putStrLn "(v) Wyswietlenie informacji o przedmiotach";
 							opt <- getLine;
 							case opt of
 								"a" -> do {
@@ -102,6 +114,10 @@ menu = do {
 								};
 								"d" -> do {
 									usunPrzedmiot;
+									menu;
+								};
+								"v" -> do {
+									wyswietlPrzedmioty;
 									menu;
 								};
 								otherwise -> do {

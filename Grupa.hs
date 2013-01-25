@@ -1,4 +1,4 @@
-module Grupa(grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy,iloscGrupy,listGrupy,pobierzGrupaNazwa,wczytajGrupy) where
+module Grupa(grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy,iloscGrupy,listGrupy,pobierzGrupaNazwa,wczytajGrupy,wyswietlGrupy) where
 import IO
 --import System.IO.Error
 import Char
@@ -74,6 +74,9 @@ usunGrupe = do
                         putStrLn "Nie znaleziono grupy o podanym ID."
 
 ---
+wyswietlGrupy = do
+                 listaGrupy <- wczytajGrupy
+                 putStrLn(grupy2String listaGrupy)	
 
 --funkcje odpowiedzialne za wyswietlenie listy przedmiotow podczas dodawania zajec				
 pokazGrupe :: [Grupa] -> Int -> IO ()

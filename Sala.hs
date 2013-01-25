@@ -1,4 +1,4 @@
-module Sala(salaName,dodajSale,zapiszSale,sprawdzIUtworzPlikSale,usunSale,listSale,iloscSale,pobierzSalaNazwa,wczytajSale,modyfikujSale) where
+module Sala(salaName,dodajSale,zapiszSale,sprawdzIUtworzPlikSale,usunSale,listSale,iloscSale,pobierzSalaNazwa,wczytajSale,modyfikujSale,wyswietlSale) where
 import IO
 --import System.IO.Error
 import Char
@@ -41,7 +41,6 @@ dodajSale = do
                         let
                                 -- stolikId = getNastStolikID stareStoliki 1
                                sala = Sala nazwaSaliStr
-                        putStrLn "Podaj nazwe sali: "
                         if False then do
                             putStrLn "Podany numer sali juz istnieje."
                             else do
@@ -55,7 +54,7 @@ dodajSale = do
 modyfikujSale = do
         putStrLn "====================================="
         putStrLn "Modyfikowanie sali"
-        putStr "Podaj nazwe sali do modyfikacji: "
+        putStrLn "Podaj nazwe sali do modyfikacji: "
         nazwaSaliStr <- getLine
         stareSale <- wczytajSale
         do
@@ -68,7 +67,7 @@ modyfikujSale = do
                         
                         zapiszSale (usunSaleZListy stareSale nazwaSaliStr)
                         stareModSale <- wczytajSale
-                        putStr "Podaj nowa nazwe sali: "
+                        putStrLn "Podaj nowa nazwe sali: "
                         nowaNazwaSaliStr <- getLine
                         zapiszSale (stareModSale ++ [(Sala nowaNazwaSaliStr)])
                         putStrLn "Sale zmodyfikowano."
@@ -100,7 +99,9 @@ usunSale = do
                         else do
                         putStrLn "Nie znaleziono sali o podanym ID."
 
-						
+wyswietlSale = do
+                 listaSale <- wczytajSale
+                 putStrLn(sale2String listaSale)					
 						
 --funkcje odpowiedzialne za wyswietlenie listy przedmiotow podczas dodawania zajec				
 pokazSale :: [Sala] -> Int -> IO ()
