@@ -124,7 +124,10 @@ zapiszZajecia zajeciaLista = do
 sprawdzIUtworzPlikZajec = do
         catch   (do
                 putStrLn ("Sprawdzanie " ++ zajeciaPlik)
-                plik <- readFile zajeciaPlik
+                hFile <- openFile zajeciaPlik ReadMode
+                fileStr <- hGetContents hFile
+                length fileStr `seq` hClose hFile
+                hClose hFile
                 return ()
                 ) errorHandler
         where errorHandler e =

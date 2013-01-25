@@ -33,7 +33,7 @@ dodajSale = do
         stareSale <- wczytajSale
         putStrLn "====================================="
         putStrLn "Dodawanie sal"
-        putStr "Podaj nazwe sali: "
+        putStrLn "Podaj nazwe sali: "
         nazwaSaliStr <- getLine
        
        -- putStr "Podaj nazwe sali: "
@@ -173,7 +173,10 @@ zapiszSale sale = do
 sprawdzIUtworzPlikSale = do
         catch   (do
                 putStrLn ("Sprawdzanie " ++ salePlik)
-                plik <- readFile salePlik
+                hFile <- openFile salePlik ReadMode
+                fileStr <- hGetContents hFile
+                length fileStr `seq` hClose hFile
+                hClose hFile
                 return ()
                 ) errorHandler
         where errorHandler e =

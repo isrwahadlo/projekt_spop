@@ -144,7 +144,10 @@ grupa2String (Grupa nazwa) =
 sprawdzIUtworzPlikGrupy = do
         catch   (do
                 putStrLn ("Sprawdzanie " ++ grupyPlik)
-                plik <- readFile grupyPlik
+                hFile <- openFile grupyPlik ReadMode
+                fileStr <- hGetContents hFile
+                length fileStr `seq` hClose hFile
+                hClose hFile
                 return ()
                 ) errorHandler
         where errorHandler e =

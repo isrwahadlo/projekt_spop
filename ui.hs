@@ -18,10 +18,10 @@ main = do {
 		putStrLn "-- Autorzy: Piotr Kalamucki, Filip Nabrdalik --";
 		putStrLn "------------------------------------------------";
 		
-		--sprawdzIUtworzPlikSale;
-		--sprawdzIUtworzPlikGrupy;
-		--sprawdzIUtworzPlikPrzedmioty;
-		--sprawdzIUtworzPlikZajec;
+		sprawdzIUtworzPlikSale;
+		sprawdzIUtworzPlikGrupy;
+		sprawdzIUtworzPlikPrzedmioty;
+		sprawdzIUtworzPlikZajec;
 		menu;
 }
 

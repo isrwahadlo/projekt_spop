@@ -42,7 +42,7 @@ dodajPrzedmiot = do
         putStrLn "Dodawanie przedmiotow"
         putStr "Podaj nazwe przedmiotu: "
         nazwaPrzedmiotuStr <- getLine
-        putStr "Podaj tygodniowy limit godzin przedmiotu: "
+        putStrLn "Podaj tygodniowy limit godzin przedmiotu: "
         weeklyLimitStr <- getLine
         starePrzedmioty <- wczytajPrzedmioty
         if sprawdzCzyLiczba weeklyLimitStr == True then do
@@ -162,7 +162,10 @@ zapiszPrzedmioty przedmiotyLista = do
 sprawdzIUtworzPlikPrzedmioty = do
         catch   (do
                 putStrLn ("Sprawdzanie " ++ przedmiotyPlik)
-                plik <- readFile przedmiotyPlik
+                hFile <- openFile przedmiotyPlik ReadMode
+                fileStr <- hGetContents hFile
+                length fileStr `seq` hClose hFile
+                hClose hFile
                 return ()
                 ) errorHandler
         where errorHandler e =
