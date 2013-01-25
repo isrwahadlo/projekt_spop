@@ -10,11 +10,11 @@ type Name	=	String
 
 salePlik = "sale.dat"
 
-data Sala = Sala Name Int deriving (Show,Read,Eq)
+data Sala = Sala Name deriving (Show,Read,Eq)
 
 
 salaName :: Sala -> Name
-salaName (Sala name _) = name
+salaName (Sala name) = name
 
 
 
@@ -40,7 +40,7 @@ dodajSale = do
         do
                         let
                                 -- stolikId = getNastStolikID stareStoliki 1
-                               sala = Sala nazwaSaliStr 0
+                               sala = Sala nazwaSaliStr
                         putStrLn "Podaj nazwe sali: "
                         if False then do
                             putStrLn "Podany numer sali juz istnieje."
@@ -70,7 +70,7 @@ modyfikujSale = do
                         stareModSale <- wczytajSale
                         putStr "Podaj nowa nazwe sali: "
                         nowaNazwaSaliStr <- getLine
-                        zapiszSale (stareModSale ++ [(Sala nowaNazwaSaliStr 0)])
+                        zapiszSale (stareModSale ++ [(Sala nowaNazwaSaliStr)])
                         putStrLn "Sale zmodyfikowano."
                         
                         else do
@@ -135,8 +135,8 @@ sale2String (x:xs) = (sala2String x) ++ sale2String xs
 
 -- zamien stolik na napis, ktory mozna wyisac na ekranie
 sala2String  :: Sala -> String
-sala2String (Sala nazwa _) =
-                "Sala nr. " ++ show nazwa++ "\n"
+sala2String (Sala nazwa) =
+                "Sala : " ++ show nazwa++ "\n"
 
 
 --sprawdz czy numer sali istnieje
