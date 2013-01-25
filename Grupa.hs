@@ -1,4 +1,4 @@
-module Grupa(grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy,iloscGrupy,listGrupy,pobierzGrupaNazwa,wczytajGrupy,wyswietlGrupy) where
+module Grupa(grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy,iloscGrupy,listGrupy,pobierzGrupaNazwa,wczytajGrupy,wyswietlGrupy,modyfikujGrupe) where
 import IO
 --import System.IO.Error
 import Char
@@ -49,7 +49,29 @@ dodajGrupe = do
                             putStrLn "Zapisano grupy."
                         
                         
-
+modyfikujGrupe = do
+        putStrLn "====================================="
+        putStrLn "Modyfikowanie grup"
+        putStrLn "Podaj nazwe grupy do modyfikacji: "
+        nazwaGrupyStr <- getLine
+        stareGrupy <- wczytajGrupy
+        do
+                
+                let grupy = znajdzGrupe stareGrupy nazwaGrupyStr
+                if grupy /= [] then do
+                        --let grupy = grupy !! 0
+                        --putStrLn "Znaleziono grupy:"
+                        putStrLn (grupy2String grupy)
+                        
+                        zapiszGrupy (usunGrupyZListy stareGrupy nazwaGrupyStr)
+                        stareModgrupy <- wczytajGrupy
+                        putStrLn "Podaj nowa nazwe grupy: "
+                        nowanazwaGrupyStr <- getLine
+                        zapiszGrupy (stareModgrupy ++ [(Grupa nowanazwaGrupyStr)])
+                        putStrLn "Grupe zmodyfikowano."
+                        
+                        else do
+                        putStrLn "Nie znaleziono grupy."
 						
 -- usuniecie grupy
 usunGrupe = do
@@ -64,7 +86,7 @@ usunGrupe = do
                 --let grupaNr = (read grupaNazwaStr) :: Int
                 let grupa = znajdzGrupe stareGrupy grupaNazwaStr
                 if grupa /= [] then do
-                        --let sale = sale !! 0
+                        --let grupy = grupy !! 0
                         putStrLn "Znaleziono grupe:"
                         putStrLn (grupy2String grupa)
                         --putStrLn "Czy na pewno chcesz usunac ten stolik? [T/N]"
@@ -128,7 +150,7 @@ sprawdzCzyGrupaIstnieje :: [Grupa] -> String -> Bool
 sprawdzCzyGrupaIstnieje [] _ = False
 sprawdzCzyGrupaIstnieje (x:xs) nazwaGrupy =  grupaName (x) == nazwaGrupy || sprawdzCzyGrupaIstnieje xs nazwaGrupy
 
--- zapisz sale do pliku
+-- zapisz grupy do pliku
 zapiszGrupy grupyLista = do
         writeFile grupyPlik (show grupyLista)
 		

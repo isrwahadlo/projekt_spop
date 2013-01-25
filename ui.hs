@@ -79,6 +79,7 @@ menu = do {
 				"2" -> do {
 							putStrLn "(a) Wprowadzenie informacji o grupie";
 							putStrLn "(d) Usuniecie informacji o grupie";
+							putStrLn "(m) Modyfikacja informacji o grupie";
 							putStrLn "(v) Wyswietlenie informacji o grupach";
 							opt <- getLine;
 							case opt of
@@ -89,6 +90,10 @@ menu = do {
 								};
 								"d" -> do {
 									usunGrupe;
+									menu;
+								};
+								"m" -> do {
+									modyfikujGrupe;
 									menu;
 								};
 								"v" -> do {
