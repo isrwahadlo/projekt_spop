@@ -1,19 +1,21 @@
-module Sala(salaName,dodajSale,zapiszSale,sprawdzIUtworzPlikSale,usunSale,listSale,iloscSale,pobierzSalaNazwa,wczytajSale) where
-import System.IO
-import System.IO.Error
-import Data.Char
+module Sala(salaName,dodajSale,zapiszSale,sprawdzIUtworzPlikSale,usunSale,listSale,iloscSale,pobierzSalaNazwa,wczytajSale,modyfikujSale) where
+import IO
+--import System.IO.Error
+import Char
 import TextUtil
+
 
 
 type Name	=	String
 
 salePlik = "sale.dat"
 
-data Sala = Sala Name deriving (Show,Read,Eq)
+data Sala = Sala Name Int deriving (Show,Read,Eq)
 
 
 salaName :: Sala -> Name
-salaName (Sala name ) = name
+salaName (Sala name _) = name
+
 
 
 
@@ -21,25 +23,26 @@ salaName (Sala name ) = name
 wczytajSale = do
         hFile <- openFile salePlik ReadMode
         fileStr <- hGetContents hFile
-        let sale = (read fileStr) :: [Sala]
-        --putStrLn ("Wczytano sal: " ++ (show (length sale)))
+        length fileStr `seq` hClose hFile
         hClose hFile
-        return sale
+        return ((read fileStr) :: [Sala])
 		
 		
 -- akcja do dodawania sal
 dodajSale = do
+        stareSale <- wczytajSale
         putStrLn "====================================="
         putStrLn "Dodawanie sal"
         putStr "Podaj nazwe sali: "
         nazwaSaliStr <- getLine
-        stareSale <- wczytajSale
+       
+       -- putStr "Podaj nazwe sali: "
         do
                         let
                                 -- stolikId = getNastStolikID stareStoliki 1
-                                --numerSali = read numerSaliStr :: Int
-                                sala = Sala nazwaSaliStr
-                        if (sprawdzCzySalaIstnieje stareSale nazwaSaliStr) then do
+                               sala = Sala nazwaSaliStr 0
+                        putStrLn "Podaj nazwe sali: "
+                        if False then do
                             putStrLn "Podany numer sali juz istnieje."
                             else do
                             zapiszSale (stareSale ++ [sala])
@@ -48,6 +51,32 @@ dodajSale = do
                         
                 
 						
+
+modyfikujSale = do
+        putStrLn "====================================="
+        putStrLn "Modyfikowanie sali"
+        putStr "Podaj nazwe sali do modyfikacji: "
+        nazwaSaliStr <- getLine
+        stareSale <- wczytajSale
+        do
+                
+                let sale = znajdzSale stareSale nazwaSaliStr
+                if sale /= [] then do
+                        --let sale = sale !! 0
+                        --putStrLn "Znaleziono sale:"
+                        putStrLn (sale2String sale)
+                        
+                        zapiszSale (usunSaleZListy stareSale nazwaSaliStr)
+                        stareModSale <- wczytajSale
+                        putStr "Podaj nowa nazwe sali: "
+                        nowaNazwaSaliStr <- getLine
+                        zapiszSale (stareModSale ++ [(Sala nowaNazwaSaliStr 0)])
+                        putStrLn "Sale zmodyfikowano."
+                        
+                        else do
+                        putStrLn "Nie znaleziono sali."
+
+
 -- usuniecie sali
 usunSale = do
         putStrLn "====================================="
@@ -106,7 +135,7 @@ sale2String (x:xs) = (sala2String x) ++ sale2String xs
 
 -- zamien stolik na napis, ktory mozna wyisac na ekranie
 sala2String  :: Sala -> String
-sala2String (Sala nazwa) =
+sala2String (Sala nazwa _) =
                 "Sala nr. " ++ show nazwa++ "\n"
 
 

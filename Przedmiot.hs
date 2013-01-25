@@ -1,7 +1,7 @@
 module Przedmiot(przedmiotName, przedmiotWeeklyLimit,wczytajPrzedmioty,dodajPrzedmiot,sprawdzIUtworzPlikPrzedmioty,usunPrzedmiot,iloscPrzedmioty,listPrzedmioty,pobierzPrzedmiotNazwa) where
-import System.IO
-import System.IO.Error
-import Data.Char
+import IO
+--import System.IO.Error
+import Char
 import TextUtil
 
 type Name	=	String
@@ -31,10 +31,9 @@ przedmiotWeeklyLimit (Przedmiot _ w_limit ) = w_limit
 wczytajPrzedmioty = do
         hFile <- openFile przedmiotyPlik ReadMode
         fileStr <- hGetContents hFile
-        let przedmioty = (read fileStr) :: [Przedmiot]
-        putStrLn ("Wczytano przedmiotow: " ++ (show (length przedmioty)))
+        length fileStr `seq` hClose hFile
         hClose hFile
-        return przedmioty
+        return ((read fileStr) :: [Przedmiot])
 		
 		
 -- akcja do dodawania przedmiotow

@@ -1,7 +1,7 @@
 module TextUtil(sprawdzCzyLiczba,sprawdzLiczbeDlaOgraniczen,listaWyboru) where
 
-import Data.Char
-import Data.Maybe
+import Char
+import Maybe
 
 --	sprawdzenie czy to liczba ... przeniesienie do utils
 sprawdzCzyLiczba :: String -> Bool

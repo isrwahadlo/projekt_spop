@@ -1,9 +1,9 @@
 module Main where
-import System.IO
-import Data.Char
-import System.Time
-import System.Locale
-import System.Environment
+import IO
+import Char
+--import System.Time
+--import System.Locale
+--import System.Environment
 import Sala
 import Grupa
 import Przedmiot
@@ -11,16 +11,17 @@ import Zajecia
 --import Generator
 
 main = do {
-		
+		hSetBuffering stdin NoBuffering;
 		putStrLn "------------------------------------------------";
 		putStrLn "----------------------SPOP----------------------";
 		putStrLn "Projekt: Program do ukladania planu zajec";
 		putStrLn "-- Autorzy: Piotr Kalamucki, Filip Nabrdalik --";
 		putStrLn "------------------------------------------------";
-		sprawdzIUtworzPlikSale;
-		sprawdzIUtworzPlikGrupy;
-		sprawdzIUtworzPlikPrzedmioty;
-		sprawdzIUtworzPlikZajec;
+		
+		--sprawdzIUtworzPlikSale;
+		--sprawdzIUtworzPlikGrupy;
+		--sprawdzIUtworzPlikPrzedmioty;
+		--sprawdzIUtworzPlikZajec;
 		menu;
 }
 
@@ -48,6 +49,7 @@ menu = do {
 				"1" -> do {
 							putStrLn "(a) Wprowadzenie informacji o sali";
 							putStrLn "(d) Usuniecie informacji o sali";
+							putStrLn "(m) Modyfikacja informacji o sali";
 							opt <- getLine;
 							case opt of
 								"a" -> do {
@@ -57,6 +59,10 @@ menu = do {
 								};
 								"d" -> do {
 									usunSale;
+									menu;
+								};
+								"m" -> do {
+									modyfikujSale;
 									menu;
 								};
 								otherwise -> do {

@@ -1,9 +1,9 @@
 module Zajecia(menuZajecia,wczytajZajecia,dodajZajecia,sprawdzIUtworzPlikZajec) where
 
 
-import System.IO
-import System.IO.Error
-import Data.Char
+import IO
+--import System.IO.Error
+import Char
 import TextUtil
 import Przedmiot
 import Grupa
@@ -48,10 +48,9 @@ zajeciaEndSlot (Zajecia _ _ _ _ _ es) = es
 wczytajZajecia = do
         hFile <- openFile zajeciaPlik ReadMode
         fileStr <- hGetContents hFile
-        let zaj = (read fileStr) :: [Zajecia]
-        --putStrLn ("Wczytano zajec: " ++ (show (length zaj)))
+        length fileStr `seq` hClose hFile
         hClose hFile
-        return zaj
+        return ((read fileStr) :: [Zajecia])
 
 -- akcja do dodawania zajec
 dodajZajecia returnF=  do 

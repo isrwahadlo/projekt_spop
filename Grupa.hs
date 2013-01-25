@@ -1,8 +1,9 @@
 module Grupa(grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy,iloscGrupy,listGrupy,pobierzGrupaNazwa,wczytajGrupy) where
-import System.IO
-import System.IO.Error
-import Data.Char
+import IO
+--import System.IO.Error
+import Char
 import TextUtil
+--import Control.Parallel.Strategies (rnf)
 
 grupyPlik = "grupy.dat"
 
@@ -19,23 +20,23 @@ grupaName :: Grupa -> Name
 grupaName (Grupa name) = name
 
 
+
 -- wczytaj grupy z pliku i zwroc liste grup
 wczytajGrupy = do
         hFile <- openFile grupyPlik ReadMode
-        fileStr <- hGetContents hFile
-        let grupy = (read fileStr) :: [Grupa]
-        --putStrLn ("Wczytano grup: " ++ (show (length grupy)))
+        fileStr <- hGetContents hFile 
+        length fileStr `seq` hClose hFile
         hClose hFile
-        return grupy
+        return ((read fileStr) :: [Grupa])
 		
 		
 -- akcja do dodawania grup
 dodajGrupe = do
-        putStrLn "====================================="
-        putStrLn "Dodawanie grupy"
-        putStr "Podaj nazwe grupy: "
-        nazwaGrupyStr <- getLine
         stareGrupy <- wczytajGrupy
+        putStrLn "==================Dodawanie grupy==================="
+        putStrLn "Podaj nazwe grupy: "
+        nazwaGrupyStr <- getLine
+        
         do
                         let
                                 
@@ -69,13 +70,6 @@ usunGrupe = do
                         --putStrLn "Czy na pewno chcesz usunac ten stolik? [T/N]"
                         zapiszGrupy (usunGrupyZListy stareGrupy grupaNazwaStr)
                         putStrLn "Grupe usunieto."
-                        {-potwierdzenie <- getLine
-                        case (map toLower potwierdzenie) of
-                                "t" -> do
-                                        zapiszStoliki (usunGrupyZListy stareStoliki grupaNr)
-                                        putStrLn "Stolik usunieto."
-                                _ -> do
-                                        putStrLn "Anulowano"-}
                         else do
                         putStrLn "Nie znaleziono grupy o podanym ID."
 
