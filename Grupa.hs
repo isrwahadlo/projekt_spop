@@ -181,3 +181,8 @@ sprawdzIUtworzPlikGrupy = do
                         writeFile grupyPlik (show ([] :: [Grupa]))
                         else
                         putStrLn ("Blad przy otwieraniu pliku: " ++ grupyPlik)
+
+
+liczGrupy = do
+    lista <- wczytajGrupy
+    return (length lista)

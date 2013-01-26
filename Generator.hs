@@ -1,121 +1,113 @@
 module Generator where
+
+import List
+
 import Zajecia
 import Przedmiot
 import Sala
 import Grupa
 
+wygenerujPlan =
+  do
+    lprzedmioty <- wczytajPrzedmioty
+    lgrupy <- wczytajGrupy
+    lsale <- wczytajSale
+    lzajecia <- wczytajZajecia
+    planujZajecia lzajecia lprzedmioty lgrupy lsale 1 8
 
-                    
-wygenerujPlan = do 
-                    listaPrzedmiotow <- wczytajPrzedmioty
-                    listaSal <- wczytajSale
-                    listaGrup <- wczytajGrupy
-                    if wygenerujPlanZDanych listaPrzedmiotow listaSal listaGrup then do
-                        putStrLn "Wygenerowano plan zajęć"
-                    else do
-                        putStrLn "Nie udało się wygenerować planu zajęć"
+planujZajecia lista_zajec [] _ _ _ _ = 
+  do
+    let lk = sort lista_zajec
+    liczba_grup <- liczGrupy
+    liczba_przedm <- liczPrzedmioty
+    if (sprawdzZajecia lk liczba_przedm liczba_grup) then
+      do
+        zapiszZajecia lk
+        putStrLn "Udalo sie automatycznie ulozyc plan. Lista zajec zostala zapisana."
+    else putStrLn "Nie udalo sie automatycznie ulozyc planu. Lista zajec pozostala bez zmian."
 
+planujZajecia lista_zajec (p:lp) [] _ _ _ = 
+  do
+    lgrupy <- wczytajGrupy
+    lsale <- wczytajSale
+    planujZajecia lista_zajec lp lgrupy lsale 1 8
 
-wygenerujPlanZDanych przedmioty sale grupy = sprawdzKombinacje (wygenerujKombinacje przedmioty sale grupy) przedmioty sale grupy
+planujZajecia lista_zajec lp (g:lg) [] _ _ = 
+  do
+    lsale <- wczytajSale
+    planujZajecia lista_zajec lp lg lsale 1 8
 
--- stworz liste wszystkich mozliwych planow zajec
-wygenerujKombinacje :: [Przedmiot] -> [Sala] -> [Grupa] -> [[Zajecia]]
-wygenerujKombinacje przedmioty sale grupy = dodajDoKombinacji przedmioty sale grupy
+planujZajecia lista_zajec (p:lp) (gr:lg) (s:ls) d g =
+  do
+    if not (sprawdzDzien d) then planujZajecia lista_zajec ([p] ++ lp) ([gr] ++ lg) ls 1 8
+    else if not ( (sprawdzStartSlot g) && (sprawdzEndSlot (g+(przedmiotWeeklyLimit p)) g) ) then planujZajecia lista_zajec ([p] ++ lp) ([gr] ++ lg) ([s] ++ ls) (d+1) 8
+    else if not (sprawdzTermin lista_zajec p gr s d g) then planujZajecia lista_zajec ([p] ++ lp) ([gr] ++ lg) ([s] ++ ls) d (g+1)
+    else
+      do
+        lsale <- wczytajSale
+        planujZajecia (lista_zajec ++ [(Zajecia (przedmiotName p) (grupaName gr) (salaName s) d g (g+(przedmiotWeeklyLimit p)))]) ([p] ++ lp) lg lsale 1 8
 
-dodajDoKombinacji _ _ _ [] = []
-dodajDoKombinacji przedmioty sale (g:grupy) = dodajDoKombinacji1 przedmioty sale g ++ dodajDoKombinacji przedmioty sale grupy
+-- -------------- Ukladanie planu --------------------------
+-- sprawdzenie, czy dzien jest w zakresie roboczych dni tygodnia
+sprawdzDzien :: Int -> Bool
+sprawdzDzien d | (d >= 1 && d <= 5) = True
+                     | otherwise = False
 
-dodajDoKombinacji1 _ _ _ [] = []
-dodajDoKombinacji1 przedmioty (s:sale) g = dodajDoKombinacji2 przedmioty s g ++ dodajDoKombinacji1 przedmioty sale g
+-- sprawdzenie, czy godzina rozpoczecia zajec miesci sie miedzy 8 a 19.
+sprawdzStartSlot :: Int -> Bool
+sprawdzStartSlot god | (god >= 8 && god <= 19) = True
+                     | otherwise = False
 
-dodajDoKombinacji2 _ _ _ [] = []
-dodajDoKombinacji2 (p:przedmioty) s g = dodajDoKombinacji3 p s g ++ dodajDoKombinacji2 przedmioty s g
+-- sprawdzenie, czy zajecia koncza sie miedzy 9 a 20
+sprawdzEndSlot :: Int -> Int -> Bool
+sprawdzEndSlot gdo god | (gdo >= 9 && gdo <= 20 && god < gdo) = True
+                         | otherwise = False
 
--- trzeba naprawic
-dodajDoKombinacji3 _ _ _ _ = []
+-- Sprawdza czy sala nie jest juz zajeta w tym terminie
+sprawdzSale :: [Zajecia] -> Sala -> Int -> Int -> Bool
+sprawdzSale [] _ _ _ = True
+sprawdzSale (z:xs) s d g =
+  do
+    if (zajeciaSalaNazwa z == salaName s) && (zajeciaDzien z == d) && (g >= zajeciaStartSlot z && g < zajeciaEndSlot z) then False
+    else sprawdzSale xs s d g
+    
+-- Sprawdza czy grupa nie ma wiecej niz 6 godzin zajec dziennie
+sprawdzGrupe :: [Zajecia] -> Grupa -> Int -> Int -> Int -> Bool
+sprawdzGrupe [] _ _ _ sum | sum > 6 = False
+                          | otherwise = True
 
+sprawdzGrupe (z:xs) gr d g sum =
+  do
+    if (zajeciaGrupaNazwa z == grupaName gr) && (zajeciaDzien z == d) then sprawdzGrupe xs gr d g (sum + (zajeciaEndSlot z - zajeciaStartSlot z))
+    else sprawdzGrupe xs gr d g sum
+        
+-- Sprawdza czy przedmiot nie odbywa sie w tym terminie
+sprawdzPrzedmiot :: [Zajecia] -> Przedmiot -> Int -> Int -> Bool
+sprawdzPrzedmiot [] _ _ _ = True
+sprawdzPrzedmiot (z:xs) p d g =
+  do
+    if (zajeciaPrzedmiotNazwa z == przedmiotName p) && (zajeciaDzien z == d) && (g >= zajeciaStartSlot z && g < zajeciaEndSlot z) then False
+    else sprawdzPrzedmiot xs p d g
 
+-- Sprawdza czy przedmiot i grupa juz nie wystepuje
+sprawdzPrzedmiotIGrupe :: [Zajecia] -> Przedmiot -> Grupa -> Bool
+sprawdzPrzedmiotIGrupe [] _ _ = True
+--(Zajecia {przedmiotNazwa = pn, grupaNazwa = gn, salaNazwa = sn, startSlot = god, endSlot = gdo, dzien = dzie})
 
+sprawdzPrzedmiotIGrupe (z:xs) p g =
+  do
+    if (zajeciaPrzedmiotNazwa z == przedmiotName p) && (zajeciaGrupaNazwa z == grupaName g) then False
+    else sprawdzPrzedmiotIGrupe xs p g
 
--- przeszukaj wszystkie warianty planu, zapisz plan i zwroc True jesli spelnia wymagania
-sprawdzKombinacje :: [[Zajecia]] -> [Przedmiot] -> [Sala] -> [Grupa] -> Bool
-sprawdzKombinacje [] _ _ _ = False
-sprawdzKombinacje (z:kombinacje) przedmioty sale grupy = if sprawdzPlan z grupy przedmioty sale then do
-                                                            zapiszZajecia z
-                                                            return True
-                                                        else 
-                                                        	sprawdzKombinacje kombinacje przedmioty sale grupy
+sprawdzZajecia :: [Zajecia] -> Int -> Int -> Bool
+sprawdzZajecia lista_zajec l_przedmiotow l_grup =
+  do
+    if ((length lista_zajec) >= (l_przedmiotow * l_grup)) then True
+    else False
 
--- przeprowadz walidacje planu zajec
-sprawdzPlan _ _ _ [] = True
-sprawdzPlan zajecia grupy przedmioty (s:sale) = if sprawdzPlan1 zajecia grupy przedmioty s
-                                                    then sprawdzPlan zajecia grupy przedmioty sale
-                                                else False
-sprawdzPlan1 _ _ [] _ = True
-sprawdzPlan1 zajecia grupy (p:przedmioty) s = if sprawdzPlan2 zajecia grupy p s
-                                                    then sprawdzPlan1 zajecia grupy przedmioty s
-                                              else False
-
-sprawdzPlan2 _ [] _ _ = True
-sprawdzPlan2 zajecia (g:grupy) p s = if sprawdzPlan3 zajecia g p s
-                                        then sprawdzPlan2 zajecia grupy p s
-                                     else False
-
-sprawdzPlan3 zajecia g p s = saleOk zajecia s && 
-                             przedmiotOk zajecia p g &&
-                             grupaOk zajecia g && 
-                             przedmiotyJednoczesnie zajecia
-
--- sprawdza czy plan dotrzymuje ograniecznia na 2 przedmioty jednoczesnie
-przedmiotyJednoczesnie zajecia = przedmiotyJednoczesnieOk1 zajecia zajecia
-
-przedmiotyJednoczesnieOk1 zajecia [] = True
-przedmiotyJednoczesnieOk1 zajecia (z:zaj) = if przedmiotyJednoczesnieOk2 zajecia z
-                                                then przedmiotyJednoczesnieOk1 zajecia zaj
-                                            else False
-
-przedmiotyJednoczesnieOk2 [] zajecie = True
-przedmiotyJednoczesnieOk2 (z:zajecia) zajecie =    	if zajeciaStartSlot z == zajeciaStartSlot zajecie
-                                                        then if (zajeciaSalaNazwa z == zajeciaSalaNazwa zajecie && zajeciaGrupaNazwa z == zajeciaGrupaNazwa zajecie)
-                                                            then False
-                                                        else przedmiotyJednoczesnieOk2 zajecia zajecie
-                                                    else przedmiotyJednoczesnieOk2 zajecia zajecie
-
--- sprawdza czy plan dotrzymuje ograniczenia na jedno zajecie w czasie w sali
-saleOk zajecia sala = zajeciaWSali zajecia sala 0
-
-zajeciaWSali :: [Zajecia] -> Sala -> Int -> Bool
-zajeciaWSali [] sala c = (c <= 1)
-zajeciaWSali (z:zajecia) sala c = if (c > 1)
-                                    then False
-                                else
-                                    if (zajeciaSalaNazwa z == salaName sala)
-                                        then zajeciaWSali zajecia sala (c+1)
-                                    else zajeciaWSali zajecia sala c
-
--- sprawdza czy plan dotrzymuje ograniczenia na liczbe godzin przedmiotu w tygodniu
-przedmiotOk zajecia przedmiot grupa = sprawdzPrzedmiot zajecia przedmiot grupa 0
-
-sprawdzPrzedmiot :: [Zajecia] -> Przedmiot -> Grupa -> Int -> Bool
-sprawdzPrzedmiot [] przedmiot grupa c = (przedmiotWeeklyLimit przedmiot == c)
-sprawdzPrzedmiot (z:zajecia) przedmiot grupa c =  if przedmiotWeeklyLimit przedmiot > c
-                                                    then False
-                                                else if (zajeciaPrzedmiotNazwa z == przedmiotName przedmiot && zajeciaGrupaNazwa z == grupaName grupa)
-                                                        then sprawdzPrzedmiot zajecia przedmiot grupa (c+1)
-                                                     else sprawdzPrzedmiot zajecia przedmiot grupa c
-
--- sprawdza czy plan dotrzymuje ograniczenia na liczbe zajec w dniu dla grupy
-grupaOk :: [Zajecia] -> Grupa -> Bool
-grupaOk zajecia grupa = sprawdzGrupe zajecia grupa 1 0 &&
-                        sprawdzGrupe zajecia grupa 2 0 &&
-                        sprawdzGrupe zajecia grupa 3 0 &&
-                        sprawdzGrupe zajecia grupa 4 0 &&
-                        sprawdzGrupe zajecia grupa 5 0
-
-sprawdzGrupe :: [Zajecia] -> Grupa -> Int -> Int -> Bool
-sprawdzGrupe [] grupa dzien c = (c<=6)
-sprawdzGrupe (z:zajecia) grupa dzien c =  if c > 6
-                                            then False
-                                        else if (zajeciaGrupaNazwa z == grupaName grupa && zajeciaDzien z == dzien)
-                                                then sprawdzGrupe zajecia grupa dzien (c+1)
-                                            else sprawdzGrupe zajecia grupa dzien c
+-- sprawdzanie, czy wprowadzony termin oraz grupa i sala nie koliduje z innymi zajeciami
+sprawdzTermin :: [Zajecia] -> Przedmiot -> Grupa -> Sala -> Int -> Int -> Bool
+sprawdzTermin lista_zajec przedmiot grupa sala d g =
+  do
+    if (sprawdzSale lista_zajec sala d g) && (sprawdzGrupe lista_zajec grupa d g 0) && (sprawdzPrzedmiot lista_zajec przedmiot d g) && (sprawdzPrzedmiotIGrupe lista_zajec przedmiot grupa) then True
+    else False

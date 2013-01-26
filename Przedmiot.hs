@@ -202,6 +202,6 @@ sprawdzIUtworzPlikPrzedmioty = do
                         else
                         putStrLn ("Blad przy otwieraniu pliku: " ++ przedmiotyPlik)
 
-
-                                 
-						
+liczPrzedmioty = do
+    lista <- wczytajPrzedmioty
+    return (length lista)						
