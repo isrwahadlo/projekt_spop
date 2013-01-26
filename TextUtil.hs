@@ -1,4 +1,4 @@
-module TextUtil(sprawdzCzyLiczba,sprawdzLiczbeDlaOgraniczen,listaWyboru) where
+module TextUtil where
 
 import Char
 import Maybe
@@ -21,6 +21,7 @@ sprawdzCzyLiczba (x:xs) =
 sprawdzLiczbeDlaOgraniczen :: Int -> Int -> Int -> Bool
 sprawdzLiczbeDlaOgraniczen x a b = x >= a && x<=b
 
+-- wyswietlanie listy zajec - latwa nawigacja
 listaWyboru listF lenF =
   do
     putStrLn "0. Powrot"
@@ -35,10 +36,11 @@ listaWyboru listF lenF =
     else 
       return pnum
 	  
-
+-- parsowanie wartosci int
 mReadInt :: String -> Maybe Int
 mReadInt = fmap fst.listToMaybe.reads
 
+-- parsowanie uint 
 rUnsigned :: Maybe Int -> Int
 rUnsigned Nothing = -1
 rUnsigned (Just a)= a

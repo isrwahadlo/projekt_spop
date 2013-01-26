@@ -1,6 +1,5 @@
 module Sala where
 import IO
---import System.IO.Error
 import Char
 import TextUtil
 
@@ -17,8 +16,6 @@ salaName :: Sala -> Name
 salaName (Sala name) = name
 
 
-
-
 -- wczytaj sale z pliku i zwroc liste sal
 wczytajSale = do
         hFile <- openFile salePlik ReadMode
@@ -28,7 +25,7 @@ wczytajSale = do
         return ((read fileStr) :: [Sala])
 		
 		
--- akcja do dodawania sal
+-- dodawanie sal
 dodajSale = do
         stareSale <- wczytajSale
         putStrLn "====================================="
@@ -36,10 +33,9 @@ dodajSale = do
         putStrLn "Podaj nazwe sali: "
         nazwaSaliStr <- getLine
        
-       -- putStr "Podaj nazwe sali: "
+       
         do
                         let
-                                -- stolikId = getNastStolikID stareStoliki 1
                                sala = Sala nazwaSaliStr
                         if False then do
                             putStrLn "Podany numer sali juz istnieje."
@@ -50,7 +46,7 @@ dodajSale = do
                         
                 
 						
-
+-- modyfikacja sali
 modyfikujSale = do
         putStrLn "====================================="
         putStrLn "Modyfikowanie sali"
@@ -61,8 +57,7 @@ modyfikujSale = do
                 
                 let sale = znajdzSale stareSale nazwaSaliStr
                 if sale /= [] then do
-                        --let sale = sale !! 0
-                        --putStrLn "Znaleziono sale:"
+                        
                         putStrLn (sale2String sale)
                         
                         zapiszSale (usunSaleZListy stareSale nazwaSaliStr)
@@ -129,12 +124,12 @@ pobierzSalaNazwa (x:xs) num =
     else pobierzSalaNazwa xs (num - 1)
 
 	
--- zamien liste stolikow na napis, ktory mozna wypisac na ekranie
+-- zamien liste sal na napis, ktory mozna wypisac na ekranie
 sale2String :: [Sala] -> String
 sale2String [] = ""
 sale2String (x:xs) = (sala2String x) ++ sale2String xs
 
--- zamien stolik na napis, ktory mozna wyisac na ekranie
+-- zamien sale na napis, ktory mozna wyisac na ekranie
 sala2String  :: Sala -> String
 sala2String (Sala nazwa) =
                 "Sala : " ++ show nazwa++ "\n"
@@ -154,7 +149,7 @@ znajdzSale (x:xs) id =
         else
         znajdzSale xs id
 		
--- usun stolik o podanym ID stolika z listy
+-- usun sale o podanym ID z listy
 usunSaleZListy :: [Sala] -> String -> [Sala]
 usunSaleZListy [] id = []
 usunSaleZListy [sale] id =
