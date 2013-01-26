@@ -1,6 +1,5 @@
 module Przedmiot where
 import IO
---import System.IO.Error
 import Char
 import TextUtil
 
@@ -8,6 +7,7 @@ type Name	=	String
 type WeeklyLimit =  Int
 
 przedmiotyPlik="przedmioty.dat"
+
 --limit na ilosc godzin w tygodniu
 minWeeklyLimit=0
 maxWeeklyLimit=60
@@ -57,6 +57,7 @@ dodajPrzedmiot = do
                                         putStrLn "Zapisano przedmioty."
                 else
                         putStrLn "Podano zla warosc." 
+--modyfikacja przedmitow
 modyfikujPrzedmiot = do
         putStrLn "====================================="
         putStrLn "Modyfikowanie przedmiotu"
@@ -67,8 +68,7 @@ modyfikujPrzedmiot = do
                 
                 let przedmioty = znajdzPrzedmiot starePrzedmioty nazwaPrzedmiotyStr
                 if przedmioty /= [] then do
-                        --let przedmioty = przedmioty !! 0
-                        --putStrLn "Znaleziono przedmioty:"
+                        
                         putStrLn (przedmioty2String przedmioty)
                         
                         zapiszPrzedmioty (usunPrzedmiotZListy starePrzedmioty nazwaPrzedmiotyStr)
@@ -87,7 +87,7 @@ modyfikujPrzedmiot = do
                                            putStrLn "Niepoprawna wartosc."
                     else
                         putStrLn "Nie znaleziono przedmiotu."
-						
+--usuniecie przedmiotu						
 usunPrzedmiot = do
         putStrLn "====================================="
         putStrLn "Usuwanie przedmiotu"
@@ -99,25 +99,21 @@ usunPrzedmiot = do
         do
                 let przedmiot = znajdzPrzedmiot starePrzedmioty przedmiotNazwaStr
                 if przedmiot /= [] then do
-                        --let sale = sale !! 0
+                        
                         putStrLn "Znaleziono przedmiot:"
                         putStrLn (przedmioty2String przedmiot)
-                        --putStrLn "Czy na pewno chcesz usunac ten stolik? [T/N]"
+                        
                         zapiszPrzedmioty (usunPrzedmiotZListy starePrzedmioty przedmiotNazwaStr)
                         putStrLn "Przedmiot usunieto."
-                        {-potwierdzenie <- getLine
-                        case (map toLower potwierdzenie) of
-                                "t" -> do
-                                        zapiszStoliki (usunPrzedmiotZListy stareStoliki grupaNr)
-                                        putStrLn "Stolik usunieto."
-                                _ -> do
-                                        putStrLn "Anulowano"-}
+                   
                         else do
                         putStrLn "Nie znaleziono przedmiotu o podanej nazwie."
-               
+
+--wyswietlenie przedmiotow						
 wyswietlPrzedmioty = do
                 listaPrzed <- wczytajPrzedmioty
                 putStrLn(przedmioty2String listaPrzed)	
+				
 -- zamien liste grup na napis, ktory mozna wypisac na ekranie
 przedmioty2String :: [Przedmiot] -> String
 przedmioty2String [] = ""
@@ -201,7 +197,7 @@ sprawdzIUtworzPlikPrzedmioty = do
                         writeFile przedmiotyPlik (show ([] :: [Przedmiot]))
                         else
                         putStrLn ("Blad przy otwieraniu pliku: " ++ przedmiotyPlik)
-
+--ilosc przedmiotow na liscie
 liczPrzedmioty = do
     lista <- wczytajPrzedmioty
     return (length lista)						
