@@ -38,7 +38,7 @@ wczytajPrzedmioty = do
 dodajPrzedmiot = do
         putStrLn "====================================="
         putStrLn "Dodawanie przedmiotow"
-        putStr "Podaj nazwe przedmiotu: "
+        putStrLn "Podaj nazwe przedmiotu: "
         nazwaPrzedmiotuStr <- getLine
         putStrLn "Podaj tygodniowy limit godzin przedmiotu: "
         weeklyLimitStr <- getLine
