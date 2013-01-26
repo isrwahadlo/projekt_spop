@@ -37,7 +37,7 @@ dodajPrzedmiot = do
         putStrLn "Dodawanie przedmiotow"
         putStrLn "Podaj nazwe przedmiotu: "
         nazwaPrzedmiotuStr <- getLine
-        putStrLn "Podaj tygodniowy limit godzin przedmiotu: "
+        putStrLn "Podaj wymiar godzin przedmiotu: "
         weeklyLimitStr <- getLine
         starePrzedmioty <- wczytajPrzedmioty
         if sprawdzCzyLiczba weeklyLimitStr == True then do

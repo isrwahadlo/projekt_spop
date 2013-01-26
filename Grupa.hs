@@ -111,8 +111,6 @@ iloscGrupy =
     listaP <- wczytajGrupy
     return (length listaP)
 						
-
-pobierzGrupaNazwa :: [Grupa] -> Int -> IO String
 pobierzGrupaNazwa (x:xs) num =
   do
     if num == 1 then return (grupaName x)
