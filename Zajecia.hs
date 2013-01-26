@@ -14,12 +14,11 @@ type GrupaNazwa = String
 type SalaNazwa = String
 type Dzien = Int
 type StartSlot = Int
-type EndSlot = Int
 
 
 zajeciaPlik="zajecia.dat"
 
-data Zajecia = Zajecia PrzedmiotNazwa GrupaNazwa SalaNazwa Dzien StartSlot EndSlot deriving (Show,Read,Eq)
+data Zajecia = Zajecia PrzedmiotNazwa GrupaNazwa SalaNazwa Dzien StartSlot deriving (Show,Read,Eq)
 
 
 
@@ -38,9 +37,6 @@ zajeciaDzien (Zajecia _ _ _ d _ _) = d
 
 zajeciaStartSlot :: Zajecia -> StartSlot
 zajeciaStartSlot (Zajecia _ _ _ _ ss _) = ss
-
-zajeciaEndSlot :: Zajecia -> EndSlot
-zajeciaEndSlot (Zajecia _ _ _ _ _ es) = es
 
 
 
