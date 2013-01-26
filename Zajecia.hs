@@ -1,6 +1,5 @@
 module Zajecia where
 
-
 import IO
 --import System.IO.Error
 import Char
@@ -16,12 +15,9 @@ type Dzien = Int
 type StartSlot = Int
 type EndSlot = Int
 
-
 zajeciaPlik="zajecia.dat"
 
 data Zajecia = Zajecia PrzedmiotNazwa GrupaNazwa SalaNazwa Dzien StartSlot EndSlot deriving (Show,Read,Eq)
-
-
 
 zajeciaPrzedmiotNazwa :: Zajecia -> PrzedmiotNazwa
 zajeciaPrzedmiotNazwa (Zajecia p_nazwa _ _ _ _ _) = p_nazwa
@@ -145,20 +141,25 @@ wczytajTermin p g s =
 menuZajecia returnF= do {
 			putStrLn "(a) Wprowadzenie informacji o zajeciach";
 			putStrLn "(d) Usuniecie informacji o zajeciu";
-							opt <- getLine;
+      putStrLn "(p) Pokaż zajęcia";
+        			opt <- getLine;
 							case opt of
-								"a" -> do {
-									
-									dodajZajecia returnF;
-									returnF;
-								};
-								"d" -> do {
-									--usunPrzedmiot;
-									returnF;
-								};
-								otherwise -> do {
-									putStrLn "Podano bledna wartosc";
-									returnF;
+                "a" -> do {
+                  dodajZajecia returnF;
+                  returnF;
+                };
+                "d" -> do {
+                  usunZajecia;
+                  returnF;
+                };
+                "p" -> do {
+                  z <- wczytajZajecia;
+                  pokazZajecia z 1;
+                  returnF;
+                };
+                otherwise -> do {
+                  putStrLn "Podano bledna wartosc";
+                  returnF;
 								};
 					}
 ---
@@ -244,3 +245,16 @@ sprawdzTermin lista_zajec przedmiot grupa sala d g =
   do
     if (sprawdzSale lista_zajec sala d g) && (sprawdzGrupe lista_zajec grupa d g 0) && (sprawdzPrzedmiot lista_zajec przedmiot d g) && (sprawdzPrzedmiotIGrupe lista_zajec przedmiot grupa) then True
     else False
+
+pokazZajecia :: [Zajecia] -> Int -> IO ()
+pokazZajecia [] _ = return ()
+pokazZajecia (z:xs) num =
+  do
+    putStr ((show num) ++ ". Przedmiot: \"" ++ (show (zajeciaPrzedmiotNazwa z)) ++ "\", grupa: \"" ++ (show (zajeciaGrupaNazwa z)) ++ "\", sala: \"" ++ (show (zajeciaSalaNazwa z)) ++ "\"")
+    putStr (", od: " ++ (show (zajeciaStartSlot z)) ++ ", do: " ++ (show (zajeciaEndSlot z)) ++ ", dzien: ")
+    putStrLn ""
+    pokazZajecia xs (num + 1)
+    return ()
+
+usunZajecia = do 
+    writeFile zajeciaPlik (show ([] :: [Zajecia]))

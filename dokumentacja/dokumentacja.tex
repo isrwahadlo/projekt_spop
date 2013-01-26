@@ -17,7 +17,6 @@
 \title{SPOP Projekt - Planowanie zajęć}
 
 \begin{document}
-
 \maketitle
 \thispagestyle{empty}
 \pagestyle{empty}
@@ -25,6 +24,7 @@
 Celem projektu jest stworzenie aplikacji umożliwiającej układanie planu zajęć w języku Haskell. Proces tworzenia grafiku może być manualny lub automatyczny. Aplikacja udostępnia prosty tekstowy interfejs użytkownika. Baza danych aplikacji składa się z plików o nazwach odpowiadających strukturom danych.
 \textbf{Założenia:} zakładamy, że każda grupa musi realizować wszystkie przedmioty z puli stworzonych przedmiotów. Uznaliśmy że żadna grupa nie może mieć więcej niż 6 zajęć jednego dnia. Zajęcia odbywają się od poniedziałku do piątku, każdego dnia dostępnych jest 12 godzin lekcyjnych.
 \section{Implementacja}
-Program podzielony jest na moduły: UI, grupy, zajęcia, przedmioty, sale i narzędzia. Każdy moduł zawiera funkcje oraz typy danych do obsługi wymaganej funkcjonalności, np: moduł grupa udostępnia funkcje: wczytajGrupy, dodajGrupe itp. Piliki z danymi zawierają przykładowe 
+Program podzielony jest na moduły: UI, grupy, zajęcia, przedmioty, sale i narzędzia. Każdy moduł zawiera funkcje oraz typy danych do obsługi wymaganej funkcjonalności, np: moduł grupa udostępnia funkcje: wczytajGrupy, dodajGrupe itp. Jeśli pliki z danymi nie istnieją, zostaną stworzone przy pierwszym uruchomieniu.
 \section{Struktura projektu}
+Zawartość projektu można podzielić na 2 części: źródła programu oraz dokumentacje. Całość dokumentacji znajduje się w katalogu doc. Źródła programu znajdują się w katalogu głównym projektu. Umieszczony też został tam plik make.bat który jest pomocny w budowaniu projektu w środowisku Windows. Pliki z danymi (grupy.dat, przedmioty.dat, sale.dat i zajecia.dat) muszą znajdować się w tym samym katalogu co program, żeby zostały odczytane.
 \end{document}
