@@ -1,4 +1,4 @@
-module Grupa(grupaName,dodajGrupe,usunGrupe,sprawdzIUtworzPlikGrupy,iloscGrupy,listGrupy,pobierzGrupaNazwa,wczytajGrupy,wyswietlGrupy,modyfikujGrupe) where
+module Grupa where
 import IO
 --import System.IO.Error
 import Char

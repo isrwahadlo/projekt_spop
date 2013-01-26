@@ -8,7 +8,7 @@ import Sala
 import Grupa
 import Przedmiot
 import Zajecia
---import Generator
+import Generator
 
 main = do {
 		hSetBuffering stdin NoBuffering;
@@ -35,6 +35,7 @@ menu = do {
 			putStrLn "(2) Edytuj grupy";
 			putStrLn "(3) Edytuj przedmioty";
 			putStrLn "(4) Edytuj zajecia";
+			putStrLn "(5) Generuj plan";
 			{-
 			putStrLn "(4) Edytuj zajecia";
 			putStrLn "(5) Uloz plan zajec";
@@ -248,9 +249,9 @@ menu = do {
 							wczytajPlik "stoliki.txt";
 							menu
 						}-}
-				"6" -> do {
-							--wygenerujPlan;
+				"5" -> do {
 							putStrLn "Generuje plan";
+							wygenerujPlan;
 							menu
 						}
 				"7" -> return();

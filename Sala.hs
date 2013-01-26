@@ -1,4 +1,4 @@
-module Sala(salaName,dodajSale,zapiszSale,sprawdzIUtworzPlikSale,usunSale,listSale,iloscSale,pobierzSalaNazwa,wczytajSale,modyfikujSale,wyswietlSale) where
+module Sala where
 import IO
 --import System.IO.Error
 import Char

@@ -1,4 +1,4 @@
-module Przedmiot(przedmiotName, przedmiotWeeklyLimit,wczytajPrzedmioty,dodajPrzedmiot,sprawdzIUtworzPlikPrzedmioty,usunPrzedmiot,iloscPrzedmioty,listPrzedmioty,pobierzPrzedmiotNazwa,wyswietlPrzedmioty,modyfikujPrzedmiot) where
+module Przedmiot where
 import IO
 --import System.IO.Error
 import Char
@@ -14,9 +14,6 @@ maxWeeklyLimit=60
 
 
 data Przedmiot = Przedmiot Name WeeklyLimit deriving (Show,Read,Eq)
-
-
-
 
 								
 przedmiotName :: Przedmiot -> Name
