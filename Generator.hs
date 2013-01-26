@@ -16,9 +16,37 @@ wygenerujPlan = do
                         putStrLn "Nie udało się wygenerować planu zajęć"
 
 
-wygenerujPlanZDanych przedmioty sale grupy = True
+wygenerujPlanZDanych przedmioty sale grupy = sprawdzKombinacje (wygenerujKombinacje przedmioty sale grupy) przedmioty sale grupy
+
+-- stworz liste wszystkich mozliwych planow zajec
+wygenerujKombinacje :: [Przedmiot] -> [Sala] -> [Grupa] -> [[Zajecia]]
+wygenerujKombinacje przedmioty sale grupy = dodajDoKombinacji przedmioty sale grupy
+
+dodajDoKombinacji _ _ _ [] = []
+dodajDoKombinacji przedmioty sale (g:grupy) = dodajDoKombinacji1 przedmioty sale g ++ dodajDoKombinacji przedmioty sale grupy
+
+dodajDoKombinacji1 _ _ _ [] = []
+dodajDoKombinacji1 przedmioty (s:sale) g = dodajDoKombinacji2 przedmioty s g ++ dodajDoKombinacji1 przedmioty sale g
+
+dodajDoKombinacji2 _ _ _ [] = []
+dodajDoKombinacji2 (p:przedmioty) s g = dodajDoKombinacji3 p s g ++ dodajDoKombinacji2 przedmioty s g
+
+-- trzeba naprawic
+dodajDoKombinacji3 _ _ _ _ = []
 
 
+
+
+-- przeszukaj wszystkie warianty planu, zapisz plan i zwroc True jesli spelnia wymagania
+sprawdzKombinacje :: [[Zajecia]] -> [Przedmiot] -> [Sala] -> [Grupa] -> Bool
+sprawdzKombinacje [] _ _ _ = False
+sprawdzKombinacje (z:kombinacje) przedmioty sale grupy = if sprawdzPlan z grupy przedmioty sale then do
+                                                            zapiszZajecia z
+                                                            return True
+                                                        else 
+                                                        	sprawdzKombinacje kombinacje przedmioty sale grupy
+
+-- przeprowadz walidacje planu zajec
 sprawdzPlan _ _ _ [] = True
 sprawdzPlan zajecia grupy przedmioty (s:sale) = if sprawdzPlan1 zajecia grupy przedmioty s
                                                     then sprawdzPlan zajecia grupy przedmioty sale
